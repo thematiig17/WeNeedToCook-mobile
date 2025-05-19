@@ -25,6 +25,8 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void addItem(const ItemsInFridgeData &item);
+    Q_INVOKABLE void addItem(const QString &name, const QString &description, int count);
+    Q_INVOKABLE void removeItem(int index);
 
 };
 

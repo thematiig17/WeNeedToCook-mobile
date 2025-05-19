@@ -41,3 +41,20 @@ void ItemsInFridgeModel::addItem(const ItemsInFridgeData &item)
     m_items.append(item);
     endInsertRows();
 }
+
+void ItemsInFridgeModel::addItem(const QString &name, const QString &description, int count)
+{
+    beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
+    m_items.append({name, description, count});
+    endInsertRows();
+}
+
+void ItemsInFridgeModel::removeItem(int index)
+{
+    if (index < 0 || index >= m_items.size())
+        return;
+
+    beginRemoveRows(QModelIndex(), index, index);
+    m_items.removeAt(index);
+    endRemoveRows();
+}
