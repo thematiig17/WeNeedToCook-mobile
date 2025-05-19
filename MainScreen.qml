@@ -63,6 +63,7 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         console.log("Open Fridge")
+                        stackView.push("FridgeScreen.qml")
                     }
                 }
             }
