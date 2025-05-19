@@ -1,5 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include "ItemsInFridgeData.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +14,11 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
+
+    ItemsInFridgeModel fridgeModel;
+    engine.rootContext()->setContextProperty("itemsInFridgeModel", &fridgeModel);
+
+
     engine.loadFromModule("WeNeedToCook-mobile", "Main");
 
     return app.exec();
