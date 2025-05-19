@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 Item {
     Button {
-        text: "< Wróć"
+        text: "< Back"
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.leftMargin: 10
@@ -34,17 +34,30 @@ Item {
                 spacing: 10
 
                 Text {
-                    text: "Nazwa: " + model.name
+                    text: "Name: " + model.name
                     font.bold: true
                 }
                 Text {
-                    text: "Opis: " + model.desc
+                    text: "Desc: " + model.description
                 }
+                // Pusta przestrzeń rozciągająca RowLayout
+                Item {
+                    Layout.fillWidth: true
+                }
+
                 Text {
-                    text: "Liczba: " + model.count
+                    text: "Count: " + model.count
+                    horizontalAlignment: Text.AlignRight
                 }
             }
         }
 
+    }
+    Button {
+        text: "Dodaj produkt"
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 16
+        onClicked: stackView.push("AddNewProductScreen.qml")
     }
 }
