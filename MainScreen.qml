@@ -96,7 +96,7 @@ Item {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 10
-                    text: "OwO"
+                    text: "iwi"
                 }
 
                 MouseArea {
