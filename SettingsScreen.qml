@@ -1,18 +1,14 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 Item {
-    property StackView stackView
-
     Button {
         text: "Wróć"
         anchors.centerIn: parent
         onClicked: {
-            if (stackView) {
-                stackView.pop()
-            } else {
-                console.warn("Brak referencji do stackView!")
-            }
+            var view = parent
+            while (view && !view.pop) view = view.parent
+            if (view) view.pop()
         }
     }
 }
