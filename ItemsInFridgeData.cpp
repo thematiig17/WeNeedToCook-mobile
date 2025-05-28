@@ -1,10 +1,13 @@
 #include "ItemsInFridgeData.h"
+#include "FileIO.h"
 
 ItemsInFridgeModel::ItemsInFridgeModel()
 {
-    addItem({"Banana", 5});
-    addItem({"Apple", 10});
-    addItem({"Orange", 7});
+    FileIO fileIO;
+    fileIO.loadData();
+    //addItem({"Banana", 5});
+    //addItem({"Apple", 10});
+    //addItem({"Orange", 7});
 }
 
 int ItemsInFridgeModel::rowCount(const QModelIndex &) const
@@ -47,6 +50,18 @@ void ItemsInFridgeModel::addItem(const QString &name, int count)
     endInsertRows();
 }
 
+
+void ItemsInFridgeModel::addItemToFile(const ItemsInFridgeData &item)
+{
+    FileIO fileIO;
+    fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(item.name, item.count));
+}
+void ItemsInFridgeModel::addItemToFile(const QString &name, int count)
+{
+    FileIO fileIO;
+    fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(name, count));
+}
+
 void ItemsInFridgeModel::removeItem(int index)
 {
     if (index < 0 || index >= m_items.size())
@@ -55,4 +70,28 @@ void ItemsInFridgeModel::removeItem(int index)
     beginRemoveRows(QModelIndex(), index, index);
     m_items.removeAt(index);
     endRemoveRows();
+}
+
+void ItemsInFridgeModel::loadItemsFromFile() {
+
+    /*Usuniecie danych obecnych juz w modelu*/
+    beginResetModel();   // powiadomienie QML że dane się zmienią
+    m_items.clear();
+    endResetModel();     // powiadomienie że dane się zmieniły
+
+    FileIO fileIO;
+    QJsonArray array = fileIO.loadData();
+    for (const QJsonValue &valueOfArray : array) {
+        if(!valueOfArray.isObject()){
+            continue;
+        }
+
+        QJsonObject obj = valueOfArray.toObject();
+
+        QString name = obj["name"].toString();
+        int value = obj["value"].toInt();
+
+        addItem({name, value});
+        qDebug() << "ItemsInFridgeData.cpp | loadItemsFromFile() | Odczytano!";
+    }
 }

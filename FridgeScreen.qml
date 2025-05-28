@@ -42,6 +42,16 @@ Item {
         Layout.bottomMargin: -5
     }
 
+    //TEST DO USUNIECIA POTEM
+    Button {
+        text: "Dodaj testowe dane"
+        onClicked: {
+            FileIO.createExampleJson()
+
+        }
+    }
+    //TEST DO USUNIECIA POTEM
+
     Rectangle {
         width: parent.width
         height: 1

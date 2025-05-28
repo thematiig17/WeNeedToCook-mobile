@@ -22,8 +22,12 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    Q_INVOKABLE void loadItemsFromFile();
+
     void addItem(const ItemsInFridgeData &item);
     Q_INVOKABLE void addItem(const QString &name, int count);
+    Q_INVOKABLE void addItemToFile(const QString &name, int count);
+    void addItemToFile(const ItemsInFridgeData &item);
     Q_INVOKABLE void removeItem(int index);
 
 };

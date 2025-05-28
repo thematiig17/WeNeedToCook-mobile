@@ -27,14 +27,18 @@ Item {
             Button {
                 text: "Add"
                 onClicked: {
-                    itemsInFridgeModel.addItem(nameField.text, countField.value)
+                    itemsInFridgeModel.addItemToFile(nameField.text, countField.value)
+                    itemsInFridgeModel.loadItemsFromFile()
                     stackView.pop() // wróć do listy
                 }
             }
 
             Button {
                 text: "Cancel"
-                onClicked: stackView.pop()
+                onClicked: {
+                    itemsInFridgeModel.loadItemsFromFile()
+                    stackView.pop()
+                }
             }
         }
     }

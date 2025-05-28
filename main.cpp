@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "ItemsInFridgeData.h"
+#include "FileIO.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
 
     ItemsInFridgeModel fridgeModel;
     engine.rootContext()->setContextProperty("itemsInFridgeModel", &fridgeModel);
+    FileIO fileIO;
+    engine.rootContext()->setContextProperty("FileIO", &fileIO);
 
 
     engine.loadFromModule("WeNeedToCook-mobile", "Main");
