@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 Item {
     Page {
-        title: "Dodaj produkt"
+        title: "Add product"
 
         ColumnLayout {
             anchors.centerIn: parent
@@ -13,13 +13,9 @@ Item {
 
             TextField {
                 id: nameField
-                placeholderText: "Nazwa"
+                placeholderText: "Name"
             }
 
-            TextField {
-                id: descField
-                placeholderText: "Opis"
-            }
 
             SpinBox {
                 id: countField
@@ -29,15 +25,15 @@ Item {
             }
 
             Button {
-                text: "Dodaj"
+                text: "Add"
                 onClicked: {
-                    itemsInFridgeModel.addItem(nameField.text, descField.text, countField.value)
+                    itemsInFridgeModel.addItem(nameField.text, countField.value)
                     stackView.pop() // wróć do listy
                 }
             }
 
             Button {
-                text: "Anuluj"
+                text: "Cancel"
                 onClicked: stackView.pop()
             }
         }
