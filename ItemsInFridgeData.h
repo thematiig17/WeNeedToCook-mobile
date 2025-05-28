@@ -6,7 +6,6 @@
 
 struct ItemsInFridgeData {
     QString name;
-    QString desc;
     int count;
 };
 
@@ -16,7 +15,6 @@ class ItemsInFridgeModel : public QAbstractListModel {
 public:
     enum ItemRoles { //enumeracja
         NameRole = Qt::UserRole + 1,
-        DescriptionRole,
         CountRole
     };
     ItemsInFridgeModel(); //konstruktor
@@ -25,7 +23,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void addItem(const ItemsInFridgeData &item);
-    Q_INVOKABLE void addItem(const QString &name, const QString &description, int count);
+    Q_INVOKABLE void addItem(const QString &name, int count);
     Q_INVOKABLE void removeItem(int index);
 
 };

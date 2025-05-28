@@ -2,9 +2,9 @@
 
 ItemsInFridgeModel::ItemsInFridgeModel()
 {
-    addItem({"Banana", "Yellow fruit", 5});
-    addItem({"Apple", "Red or green", 10});
-    addItem({"Orange", "Citrus fruit", 7});
+    addItem({"Banana", 5});
+    addItem({"Apple", 10});
+    addItem({"Orange", 7});
 }
 
 int ItemsInFridgeModel::rowCount(const QModelIndex &) const
@@ -20,7 +20,6 @@ QVariant ItemsInFridgeModel::data(const QModelIndex &index, int role) const
     const ItemsInFridgeData &item = m_items[index.row()];
     switch (role) {
     case NameRole: return item.name;
-    case DescriptionRole: return item.desc;
     case CountRole: return item.count;
     default: return QVariant();
     }
@@ -30,7 +29,6 @@ QHash<int, QByteArray> ItemsInFridgeModel::roleNames() const
 {
     return {
         { NameRole, "name" },
-        { DescriptionRole, "description" },
         { CountRole, "count" }
     };
 }
@@ -42,10 +40,10 @@ void ItemsInFridgeModel::addItem(const ItemsInFridgeData &item)
     endInsertRows();
 }
 
-void ItemsInFridgeModel::addItem(const QString &name, const QString &description, int count)
+void ItemsInFridgeModel::addItem(const QString &name, int count)
 {
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-    m_items.append({name, description, count});
+    m_items.append({name, count});
     endInsertRows();
 }
 
