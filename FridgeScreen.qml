@@ -6,8 +6,10 @@ Item {
     Button {
         text: "Go Back"
         background: Rectangle {
+        anchors.fill: parent
         color: "SteelBlue"
         radius: 30
+        opacity: 1.0
 }
         width : 120
         height : 60
@@ -21,7 +23,6 @@ Item {
             if (view) view.pop()
         }
     }
-
     ColumnLayout {
         spacing: 20
         anchors.right: parent.right
@@ -59,35 +60,59 @@ Item {
     }
         Repeater{
             model: itemsInFridgeModel
-            Rectangle{
-                Layout.fillWidth: true
-                height: 10
-                color: "blue"
-            }
-            RowLayout{
-                Layout.fillWidth: true
-                spacing: 10
+
+        delegate: Item{
+            width:parent.width
+            height: 50
+
+
+        Column {
+            spacing: 6
+            anchors.fill: parent
+
+        RowLayout{
+            spacing: 10
+            Layout.fillWidth: true
+
 
                 Text {
                     text: model.name
                     font.bold: true
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.preferredWidth: 200
+                    elide: Text.ElideRight
 
                 }
 
-                // Pusta przestrzeń rozciągająca RowLayout
                 Item {
                     Layout.fillWidth: true
                 }
 
                 Text {
                     text: model.count
+                    Layout.alignment: Qt.AlignRight
                     horizontalAlignment: Text.AlignRight
+                    Layout.preferredWidth: 120
+
                 }
+            }
 
+                Row{
+                    spacing:4
 
+                Repeater{
+                    model: 50
+
+                Rectangle{
+                    width : 4
+                    height:2
+                    color: "black"
+                }
+            }
             }
         }
 
+    }
     }
     Button {
         text: "<font color=\"#FFFFFF\">+</font>"
@@ -101,7 +126,7 @@ Item {
         background: Rectangle {
         color: "SteelBlue"
         radius: 30
-}
     }
-
+    }
+}
 }
