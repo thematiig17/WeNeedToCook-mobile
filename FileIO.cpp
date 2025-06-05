@@ -73,3 +73,13 @@ void FileIO::createExampleJson(){
 
     qDebug() << "FileIO.cpp | createExampleJson() | Wykonano funkcje createExampleJson()";
 }
+
+void FileIO::deleteJson() {
+    QFile file(getFilePath());
+    if (file.open(QIODevice::WriteOnly)){
+        QJsonArray emptyArray;
+        QJsonDocument doc(emptyArray);
+        file.write(doc.toJson());
+        file.close();
+    }
+}

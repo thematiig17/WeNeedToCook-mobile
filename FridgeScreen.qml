@@ -33,7 +33,7 @@ Item {
         anchors.topMargin: 60
 
     Text{
-        text: "My fridge"
+        text: "My Fridge"
         color: "black"
         font.pixelSize : 30
         Layout.topMargin: 10
@@ -44,13 +44,28 @@ Item {
     }
 
     //TEST DO USUNIECIA POTEM
-    Button {
-        text: "Dodaj testowe dane"
-        onClicked: {
-            FileIO.createExampleJson()
-
+    RowLayout {
+        spacing: 20
+        Button {
+            text: "Dodaj testowe dane"
+            onClicked: {
+                FileIO.createExampleJson()
+                itemsInFridgeModel.loadItemsFromFile()
+                stackView.push("FridgeScreen.qml")
+            }
+        }
+        Button {
+            text: "Usun testowe dane"
+            onClicked: {
+                FileIO.deleteJson()
+                stackView.pop()
+                itemsInFridgeModel.loadItemsFromFile()
+                stackView.push("FridgeScreen.qml")
+            }
         }
     }
+
+
     //TEST DO USUNIECIA POTEM
 
     Rectangle {

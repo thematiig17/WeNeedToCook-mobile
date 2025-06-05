@@ -16,6 +16,7 @@ public:
     Q_INVOKABLE QJsonArray loadData(); //Wczytuje danem zwraca json
 
     Q_INVOKABLE void createExampleJson();
+    Q_INVOKABLE void deleteJson();
 
 private:
     QString getFilePath() const; //zwraca sciezke
