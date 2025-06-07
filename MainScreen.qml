@@ -1,12 +1,18 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import App.Models 1.0
 
 Item {
-
     ColumnLayout{
         spacing: 30
         anchors.horizontalCenter: parent.horizontalCenter
+        //testowe
+        Text {
+            text: "Fridge count: " + FridgeModel.count
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
         Text {
             Layout.topMargin: 100
             Layout.alignment: Qt.AlignHCenter //wysrodkowanie
@@ -63,7 +69,7 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         console.log("Open Fridge")
-                        itemsInFridgeModel.loadItemsFromFile()
+                        FridgeModel.loadItemsFromFile()
                         stackView.push("FridgeScreen.qml")
                     }
                 }

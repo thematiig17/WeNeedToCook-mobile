@@ -13,6 +13,11 @@ class ItemsInFridgeModel : public QAbstractListModel {
     Q_OBJECT
     QList<ItemsInFridgeData> m_items;
 public:
+    //do ogloszenia zmiany wartosci
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_SIGNAL void countChanged();
+    Q_INVOKABLE int count() const;
+
     enum ItemRoles { //enumeracja
         NameRole = Qt::UserRole + 1,
         CountRole

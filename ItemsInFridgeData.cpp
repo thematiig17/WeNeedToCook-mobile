@@ -77,7 +77,7 @@ void ItemsInFridgeModel::loadItemsFromFile() {
     /*Usuniecie danych obecnych juz w modelu*/
     beginResetModel();   // powiadomienie QML że dane się zmienią
     m_items.clear();
-    endResetModel();     // powiadomienie że dane się zmieniły
+
 
     FileIO fileIO;
     QJsonArray array = fileIO.loadData();
@@ -93,5 +93,12 @@ void ItemsInFridgeModel::loadItemsFromFile() {
 
         addItem({name, value});
         qDebug() << "ItemsInFridgeData.cpp | loadItemsFromFile() | Odczytano!";
+
     }
+    emit countChanged();
+    endResetModel(); // powiadomienie że dane się zmieniły
+}
+
+int ItemsInFridgeModel::count() const {
+    return m_items.count();
 }
