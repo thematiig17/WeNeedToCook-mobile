@@ -38,26 +38,64 @@ QHash<int, QByteArray> ItemsInFridgeModel::roleNames() const
 
 void ItemsInFridgeModel::addItem(const ItemsInFridgeData &item)
 {
+    if (item.name.length() > 10) {
+        qWarning() << "Nazwa zbyt długa:" << item.name;
+        return;
+    }
+
+    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    if (!regex.match(item.name).hasMatch()) {
+        qWarning() << "Nazwa zawiera niedozwolone znaki:" << item.name;
+        return;
+    }
+
+
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
     m_items.append(item);
     endInsertRows();
 }
 
+
 void ItemsInFridgeModel::addItem(const QString &name, int count)
 {
+    if (name.length() > 10) {
+        qWarning() << "Name too long";
+        return;
+    }
+    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    if (!regex.match(name).hasMatch()) {
+        qWarning() << "Nazwa zawiera niedozwolone znaki:" << name;
+        return;
+    }
+
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
     m_items.append({name, count});
     endInsertRows();
 }
 
 
+
 void ItemsInFridgeModel::addItemToFile(const ItemsInFridgeData &item)
 {
+    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    if (item.name.length() > 10 || !regex.match(item.name).hasMatch()) {
+        qWarning() << "Błędna nazwa — nie zapisano do pliku:";
+        return;
+    }
+
+
     FileIO fileIO;
     fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(item.name, item.count));
 }
 void ItemsInFridgeModel::addItemToFile(const QString &name, int count)
 {
+    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    if (name.length() > 10 || !regex.match(name).hasMatch()) {
+        qWarning() << "Błędna nazwa — nie zapisano do pliku:";
+        return;
+    }
+
+
     FileIO fileIO;
     fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(name, count));
 }

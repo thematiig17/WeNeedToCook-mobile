@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
+import App.Models 1.0
 Item {
     Page {
         title: "Add product"
@@ -27,8 +27,8 @@ Item {
             Button {
                 text: "Add"
                 onClicked: {
-                    itemsInFridgeModel.addItemToFile(nameField.text, countField.value)
-                    itemsInFridgeModel.loadItemsFromFile()
+                    FridgeModel.addItemToFile(nameField.text, countField.value)
+                    FridgeModel.loadItemsFromFile()
                     stackView.pop() // wróć do listy
                 }
             }
@@ -36,7 +36,7 @@ Item {
             Button {
                 text: "Cancel"
                 onClicked: {
-                    itemsInFridgeModel.loadItemsFromFile()
+                    FridgeModel.loadItemsFromFile()
                     stackView.pop()
                 }
             }
