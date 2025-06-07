@@ -5,15 +5,15 @@ import App.Models 1.0
 
 Item {
     Button {
-        text: "Go Back"
+        text: "<font color=\"#FFFFFF\"> GO BACK</font>"
+        font.pixelSize : 22
         background: Rectangle {
-        anchors.fill: parent
         color: "SteelBlue"
-        radius: 30
+        radius: 20
         opacity: 1.0
 }
-        width : 120
-        height : 60
+        width : 140
+        height :35
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.margins: 16
@@ -26,7 +26,6 @@ Item {
     }
     ColumnLayout {
         spacing: 20
-
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
@@ -103,6 +102,7 @@ Item {
 
                     Text {
                         text: name
+                        font.pixelSize : 22
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
                         Layout.preferredWidth: 200
@@ -116,6 +116,7 @@ Item {
 
                     Text {
                         text: count
+                        font.pixelSize : 22
                         Layout.alignment: Qt.AlignRight
                         horizontalAlignment: Text.AlignRight
                         Layout.preferredWidth: 120
@@ -141,19 +142,22 @@ Item {
         }
     }
 
+
+    }
     Button {
         text: "<font color=\"#FFFFFF\">+</font>"
         font.pixelSize : 22
-        width : 60
-        height : 60
+        background: Rectangle {
+        color: "SteelBlue"
+        radius: 20
+        opacity: 1.0
+}
+        width : 40
+        height : 40
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 16
         onClicked: stackView.push("AddNewProductScreen.qml")
-        background: Rectangle {
-        color: "SteelBlue"
-        radius: 30
-    }
-    }
+
 }
 }
