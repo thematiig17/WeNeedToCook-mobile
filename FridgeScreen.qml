@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import App.Models 1.0
 
 Item {
     Button {
@@ -25,6 +26,10 @@ Item {
     }
     ColumnLayout {
         spacing: 20
+
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.leftMargin: 10
@@ -33,7 +38,7 @@ Item {
         anchors.topMargin: 60
 
     Text{
-        text: "My fridge"
+        text: "My Fridge"
         color: "black"
         font.pixelSize : 30
         Layout.topMargin: 10
@@ -44,76 +49,98 @@ Item {
     }
 
     //TEST DO USUNIECIA POTEM
-    Button {
-        text: "Dodaj testowe dane"
-        onClicked: {
-            FileIO.createExampleJson()
-
+    RowLayout {
+        spacing: 20
+        Button {
+            text: "Dodaj testowe dane"
+            onClicked: {
+                FileIO.createExampleJson()
+                stackView.pop()
+                itemsInFridgeModel.loadItemsFromFile()
+                stackView.push("FridgeScreen.qml")
+            }
+        }
+        Button {
+            text: "Usun wszystkie dane"
+            onClicked: {
+                FileIO.deleteJson()
+                stackView.pop()
+                itemsInFridgeModel.loadItemsFromFile()
+                stackView.push("FridgeScreen.qml")
+            }
         }
     }
+
+
     //TEST DO USUNIECIA POTEM
 
-    Rectangle {
-        width: parent.width
-        height: 1
-        color: "black"
-    }
-        Repeater{
-            model: itemsInFridgeModel
+    Text { text: "Model count: " + FridgeModel.count }
 
-        delegate: Item{
-            width:parent.width
-            height: 50
+    ListView {
+        //anchors.fill: parent
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        clip: true
+        model: FridgeModel
 
-
-        Column {
-            spacing: 6
-            anchors.fill: parent
-
-        RowLayout{
-            spacing: 10
-            Layout.fillWidth: true
-
-
-                Text {
-                    text: model.name
-                    font.bold: true
-                    Layout.alignment: Qt.AlignLeft
-                    Layout.preferredWidth: 200
-                    elide: Text.ElideRight
-
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Text {
-                    text: model.count
-                    Layout.alignment: Qt.AlignRight
-                    horizontalAlignment: Text.AlignRight
-                    Layout.preferredWidth: 120
-
-                }
-            }
-
-                Row{
-                    spacing:4
-
-                Repeater{
-                    model: 50
-
-                Rectangle{
-                    width : 4
-                    height:2
-                    color: "black"
-                }
-            }
-            }
+        header: Rectangle {
+            width: parent.width
+            height: 1
+            color: "black"
         }
 
+        delegate: Item {
+            width: parent.width
+            height: 50
+
+            Column {
+                spacing: 6
+                anchors.fill: parent
+
+                RowLayout{
+                    spacing: 10
+                    Layout.fillWidth: true
+
+                    Text {
+                        text: name
+                        font.bold: true
+                        Layout.alignment: Qt.AlignLeft
+                        Layout.preferredWidth: 200
+                        elide: Text.ElideRight
+
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    Text {
+                        text: count
+                        Layout.alignment: Qt.AlignRight
+                        horizontalAlignment: Text.AlignRight
+                        Layout.preferredWidth: 120
+                    }
+                }
+
+                Row {
+                    spacing:4
+
+                    Repeater{
+                        model: 50
+
+                        Rectangle{
+                            width : 4
+                            height:2
+                            color: "black"
+                        }
+
+
+                    }
+                }
+            }
+        }
     }
-    }
+
     Button {
         text: "<font color=\"#FFFFFF\">+</font>"
         font.pixelSize : 22

@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    ItemsInFridgeModel fridgeModel;
-    engine.rootContext()->setContextProperty("itemsInFridgeModel", &fridgeModel);
+    static ItemsInFridgeModel fridgeModel;
+    qmlRegisterSingletonInstance("App.Models", 1, 0, "FridgeModel", &fridgeModel);
     FileIO fileIO;
     engine.rootContext()->setContextProperty("FileIO", &fileIO);
 
