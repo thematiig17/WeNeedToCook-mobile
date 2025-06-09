@@ -4,26 +4,7 @@ import QtQuick.Layouts
 import App.Models 1.0
 
 Item {
-    Button {
-        text: "<font color=\"#FFFFFF\"> GO BACK</font>"
-        font.pixelSize : 22
-        background: Rectangle {
-        color: "SteelBlue"
-        radius: 20
-        opacity: 1.0
-}
-        width : 140
-        height :35
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.margins: 16
 
-        onClicked: {
-            var view = parent
-            while (view && !view.pop) view = view.parent
-            if (view) view.pop()
-        }
-    }
     ColumnLayout {
         spacing: 20
         anchors.top: parent.top
@@ -53,18 +34,18 @@ Item {
         Button {
             text: "Dodaj testowe dane"
             onClicked: {
-                FileIO.createExampleJson()
+                FileIO.createExampleJson("FridgeData")
                 stackView.pop()
-                itemsInFridgeModel.loadItemsFromFile()
+                FridgeModel.loadItemsFromFile()
                 stackView.push("FridgeScreen.qml")
             }
         }
         Button {
             text: "Usun wszystkie dane"
             onClicked: {
-                FileIO.deleteJson()
+                FileIO.deleteJson("FridgeData")
                 stackView.pop()
-                itemsInFridgeModel.loadItemsFromFile()
+                FridgeModel.loadItemsFromFile()
                 stackView.push("FridgeScreen.qml")
             }
         }
@@ -115,7 +96,16 @@ Item {
                     }
 
                     Text {
-                        text: count
+                        //text: count + unit
+                        text: {
+                                if (unit === "ml" && count > 1000) {
+                                    return (count / 1000) + "L";
+                                } else if (unit === "g" && count >= 1000) {
+                                    return (count / 1000) + "kg";
+                                } else {
+                                    return count + unit;
+                                }
+                            }
                         font.pixelSize : 22
                         Layout.alignment: Qt.AlignRight
                         horizontalAlignment: Text.AlignRight
@@ -142,7 +132,23 @@ Item {
         }
     }
 
+        Button {
+            text: "<font color=\"#FFFFFF\"> GO BACK</font>"
+            font.pixelSize : 22
+            background: Rectangle {
+            color: "SteelBlue"
+            radius: 20
+            opacity: 1.0
+            }
+            width : 140
+            height :35
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: 16
 
+            onClicked: stackView.pop()
+
+        }
     }
     Button {
         text: "<font color=\"#FFFFFF\">+</font>"

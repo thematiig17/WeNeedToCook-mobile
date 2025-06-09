@@ -7,6 +7,7 @@
 struct ItemsInFridgeData {
     QString name;
     int count;
+    QString unit;
 };
 
 class ItemsInFridgeModel : public QAbstractListModel {
@@ -18,9 +19,10 @@ public:
     Q_SIGNAL void countChanged();
     Q_INVOKABLE int count() const;
 
-    enum ItemRoles { //enumeracja
+    enum ItemRoles { //enumeracja, nadajemy nazwy liczbom
         NameRole = Qt::UserRole + 1,
-        CountRole
+        CountRole,
+        UnitRole
     };
     ItemsInFridgeModel(); //konstruktor
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -30,8 +32,8 @@ public:
     Q_INVOKABLE void loadItemsFromFile();
 
     void addItem(const ItemsInFridgeData &item);
-    Q_INVOKABLE void addItem(const QString &name, int count);
-    Q_INVOKABLE void addItemToFile(const QString &name, int count);
+    Q_INVOKABLE void addItem(const QString &name, int count, QString unit);
+    Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit);
     void addItemToFile(const ItemsInFridgeData &item);
     Q_INVOKABLE void removeItem(int index);
 

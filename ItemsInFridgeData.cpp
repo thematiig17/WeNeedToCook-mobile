@@ -4,7 +4,7 @@
 ItemsInFridgeModel::ItemsInFridgeModel()
 {
     FileIO fileIO;
-    fileIO.loadData();
+    fileIO.loadData("FridgeData");
     //addItem({"Banana", 5});
     //addItem({"Apple", 10});
     //addItem({"Orange", 7});
@@ -24,6 +24,7 @@ QVariant ItemsInFridgeModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case NameRole: return item.name;
     case CountRole: return item.count;
+    case UnitRole: return item.unit;
     default: return QVariant();
     }
 }
@@ -32,7 +33,8 @@ QHash<int, QByteArray> ItemsInFridgeModel::roleNames() const
 {
     return {
         { NameRole, "name" },
-        { CountRole, "count" }
+        { CountRole, "count" },
+        { UnitRole, "unit" }
     };
 }
 
@@ -56,7 +58,7 @@ void ItemsInFridgeModel::addItem(const ItemsInFridgeData &item)
 }
 
 
-void ItemsInFridgeModel::addItem(const QString &name, int count)
+void ItemsInFridgeModel::addItem(const QString &name, int count, QString unit)
 {
     if (name.length() > 10) {
         qWarning() << "Name too long";
@@ -69,7 +71,7 @@ void ItemsInFridgeModel::addItem(const QString &name, int count)
     }
 
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-    m_items.append({name, count});
+    m_items.append({name, count, unit});
     endInsertRows();
 }
 
@@ -85,9 +87,9 @@ void ItemsInFridgeModel::addItemToFile(const ItemsInFridgeData &item)
 
 
     FileIO fileIO;
-    fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(item.name, item.count));
+    fileIO.saveData("FridgeData", fileIO.loadData("FridgeData"), fileIO.makeJsonFromFridge(item.name, item.count, item.unit));
 }
-void ItemsInFridgeModel::addItemToFile(const QString &name, int count)
+void ItemsInFridgeModel::addItemToFile(const QString &name, int count, QString unit)
 {
     QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
     if (name.length() > 10 || !regex.match(name).hasMatch()) {
@@ -97,7 +99,7 @@ void ItemsInFridgeModel::addItemToFile(const QString &name, int count)
 
 
     FileIO fileIO;
-    fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(name, count));
+    fileIO.saveData("FridgeData", fileIO.loadData("FridgeData"), fileIO.makeJsonFromFridge(name, count, unit));
 }
 
 void ItemsInFridgeModel::removeItem(int index)
@@ -118,7 +120,7 @@ void ItemsInFridgeModel::loadItemsFromFile() {
 
 
     FileIO fileIO;
-    QJsonArray array = fileIO.loadData();
+    QJsonArray array = fileIO.loadData("FridgeData");
     for (const QJsonValue &valueOfArray : array) {
         if(!valueOfArray.isObject()){
             continue;
@@ -128,8 +130,9 @@ void ItemsInFridgeModel::loadItemsFromFile() {
 
         QString name = obj["name"].toString();
         int value = obj["value"].toInt();
+        QString unit = obj["unit"].toString();
 
-        addItem({name, value});
+        addItem({name, value, unit});
         qDebug() << "ItemsInFridgeData.cpp | loadItemsFromFile() | Odczytano!";
 
     }
