@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include "ItemsInFridgeData.h"
 #include "FileIO.h"
+#include "RecipeBookData.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +19,8 @@ int main(int argc, char *argv[])
 
     static ItemsInFridgeModel fridgeModel;
     qmlRegisterSingletonInstance("App.Models", 1, 0, "FridgeModel", &fridgeModel);
+    static RecipeBookModel recipeModel;
+    qmlRegisterSingletonInstance("Recipe.Models", 1, 0, "RecipeModel", &recipeModel);
     FileIO fileIO;
     engine.rootContext()->setContextProperty("FileIO", &fileIO);
 

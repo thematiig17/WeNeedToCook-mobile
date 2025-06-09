@@ -41,6 +41,16 @@ QJsonObject FileIO::makeJsonFromFridge(QString name, int value, QString unit) {
 
 }
 
+QJsonObject FileIO::makeJsonFromRecipe(QString name, int value, QString unit) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
+
+    QJsonObject temp_obj;
+    temp_obj["name"] = name;
+    temp_obj["value"] = value;
+    temp_obj["unit"] = unit;
+    return temp_obj;
+
+}
+
 bool FileIO::saveData(QString nameOfFile, QJsonArray data, const QJsonObject &object){
 
     QFile file(getFilePath(nameOfFile));
