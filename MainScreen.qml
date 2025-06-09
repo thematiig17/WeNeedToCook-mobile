@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import App.Models 1.0
+import Recipe.Models 1.0
 
 Item {
     ColumnLayout{
@@ -92,6 +93,8 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         console.log("Open Reciepes")
+                        RecipeModel.loadItemsFromFile()
+                        stackView.push("RecipeScreen.qml")
                     }
                 }
             }

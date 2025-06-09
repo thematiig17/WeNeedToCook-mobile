@@ -23,6 +23,10 @@ qt_add_qml_module(appWeNeedToCook-mobile
         SOURCES ItemsInFridgeData.h ItemsInFridgeData.cpp
         QML_FILES AddNewProductScreen.qml
         SOURCES FileIO.h FileIO.cpp
+        SOURCES RecipeBookData.h
+        SOURCES RecpieBookData.cpp
+        QML_FILES RecipeScreen.qml
+        QML_FILES AddNewRecipeScreen.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
