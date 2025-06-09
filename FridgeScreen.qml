@@ -115,7 +115,16 @@ Item {
                     }
 
                     Text {
-                        text: count + unit
+                        //text: count + unit
+                        text: {
+                                if (unit === "ml" && count > 1000) {
+                                    return (count / 1000) + "L";
+                                } else if (unit === "g" && count >= 1000) {
+                                    return (count / 1000) + "kg";
+                                } else {
+                                    return count + unit;
+                                }
+                            }
                         font.pixelSize : 22
                         Layout.alignment: Qt.AlignRight
                         horizontalAlignment: Text.AlignRight
