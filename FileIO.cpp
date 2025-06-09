@@ -31,11 +31,12 @@ QJsonArray FileIO::loadData(QString nameOfFile){
     return document.array();
 }
 
-QJsonObject FileIO::makeJsonFromFridge(QString name, int value) {
+QJsonObject FileIO::makeJsonFromFridge(QString name, int value, QString unit) {
 
     QJsonObject temp_obj;
     temp_obj["name"] = name;
     temp_obj["value"] = value;
+    temp_obj["unit"] = unit;
     return temp_obj;
 
 }
@@ -63,9 +64,9 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, const QJsonObject &ob
 
 
 void FileIO::createExampleJson(QString nameOfFile){
-    QJsonObject banana = makeJsonFromFridge("Banana", 5);
-    QJsonObject apple = makeJsonFromFridge("Apple", 10);
-    QJsonObject orange = makeJsonFromFridge("Orange", 7);
+    QJsonObject banana = makeJsonFromFridge("Banana", 5, "pcs");
+    QJsonObject apple = makeJsonFromFridge("Apple", 10, "pcs");
+    QJsonObject orange = makeJsonFromFridge("Orange", 7, "g");
 
     saveData(nameOfFile, loadData(nameOfFile), banana);
     saveData(nameOfFile, loadData(nameOfFile), apple);

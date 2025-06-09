@@ -18,11 +18,11 @@ Item {
         anchors.bottom: parent.bottom
         anchors.margins: 16
 
-        onClicked: {
+        onClicked: stackView.pop() /*{
             var view = parent
             while (view && !view.pop) view = view.parent
             if (view) view.pop()
-        }
+            } */
     }
     ColumnLayout {
         spacing: 20
@@ -55,7 +55,7 @@ Item {
             onClicked: {
                 FileIO.createExampleJson("FridgeData")
                 stackView.pop()
-                itemsInFridgeModel.loadItemsFromFile()
+                FridgeModel.loadItemsFromFile()
                 stackView.push("FridgeScreen.qml")
             }
         }
@@ -64,7 +64,7 @@ Item {
             onClicked: {
                 FileIO.deleteJson("FridgeData")
                 stackView.pop()
-                itemsInFridgeModel.loadItemsFromFile()
+                FridgeModel.loadItemsFromFile()
                 stackView.push("FridgeScreen.qml")
             }
         }
@@ -115,7 +115,7 @@ Item {
                     }
 
                     Text {
-                        text: count
+                        text: count + unit
                         font.pixelSize : 22
                         Layout.alignment: Qt.AlignRight
                         horizontalAlignment: Text.AlignRight

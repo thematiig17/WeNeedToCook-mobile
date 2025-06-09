@@ -24,10 +24,15 @@ Item {
                 value: 1
             }
 
+            ComboBox {
+                id: unitSelector
+                model: ["g", "ml", "pcs"]
+            }
+
             Button {
                 text: "Add"
                 onClicked: {
-                    FridgeModel.addItemToFile(nameField.text, countField.value)
+                    FridgeModel.addItemToFile(nameField.text, countField.value, unitSelector.currentText)
                     FridgeModel.loadItemsFromFile()
                     stackView.pop() // wróć do listy
                 }
