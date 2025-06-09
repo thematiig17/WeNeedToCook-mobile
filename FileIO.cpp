@@ -9,18 +9,18 @@ FileIO::FileIO(QObject *parent)
     : QObject{parent}
 {}
 
-QString FileIO::getFilePath() const{
+QString FileIO::getFilePath(QString nameOfFile) const{
     QString dirPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation); //pobieramy z systemu sciezke danych aplikacji
     QDir dir(dirPath); //zmienna trzymajaca sciezke do pliku w odpowiednim formacie
     if (!dir.exists()) {
         dir.mkpath(".");
     }
-    qDebug() << "FileIO.cpp | getFilePath() | Sciezka do pliku: " << dir.filePath("FridgeData.json");
-    return dir.filePath("FridgeData.json");
+    qDebug() << "FileIO.cpp | getFilePath() | Sciezka do pliku: " << dir.filePath(nameOfFile + ".json");
+    return dir.filePath(nameOfFile + ".json");
 }
 
-QJsonArray FileIO::loadData(){
-    QFile file(getFilePath());
+QJsonArray FileIO::loadData(QString nameOfFile){
+    QFile file(getFilePath(nameOfFile));
     if (!file.open(QIODevice::ReadOnly)) {
         return {};
     }
@@ -40,9 +40,9 @@ QJsonObject FileIO::makeJsonFromFridge(QString name, int value) {
 
 }
 
-bool FileIO::saveData(QJsonArray data, const QJsonObject &object){
+bool FileIO::saveData(QString nameOfFile, QJsonArray data, const QJsonObject &object){
 
-    QFile file(getFilePath());
+    QFile file(getFilePath(nameOfFile));
     if (!file.open(QIODevice::WriteOnly)){
         return false;
     }
@@ -62,20 +62,20 @@ bool FileIO::saveData(QJsonArray data, const QJsonObject &object){
 }
 
 
-void FileIO::createExampleJson(){
+void FileIO::createExampleJson(QString nameOfFile){
     QJsonObject banana = makeJsonFromFridge("Banana", 5);
     QJsonObject apple = makeJsonFromFridge("Apple", 10);
     QJsonObject orange = makeJsonFromFridge("Orange", 7);
 
-    saveData(loadData(), banana);
-    saveData(loadData(), apple);
-    saveData(loadData(), orange);
+    saveData(nameOfFile, loadData(nameOfFile), banana);
+    saveData(nameOfFile, loadData(nameOfFile), apple);
+    saveData(nameOfFile, loadData(nameOfFile), orange);
 
     qDebug() << "FileIO.cpp | createExampleJson() | Wykonano funkcje createExampleJson()";
 }
 
-void FileIO::deleteJson() {
-    QFile file(getFilePath());
+void FileIO::deleteJson(QString nameOfFile) {
+    QFile file(getFilePath(nameOfFile));
     if (file.open(QIODevice::WriteOnly)){
         QJsonArray emptyArray;
         QJsonDocument doc(emptyArray);

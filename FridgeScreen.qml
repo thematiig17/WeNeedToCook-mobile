@@ -53,7 +53,7 @@ Item {
         Button {
             text: "Dodaj testowe dane"
             onClicked: {
-                FileIO.createExampleJson()
+                FileIO.createExampleJson("FridgeData")
                 stackView.pop()
                 itemsInFridgeModel.loadItemsFromFile()
                 stackView.push("FridgeScreen.qml")
@@ -62,7 +62,7 @@ Item {
         Button {
             text: "Usun wszystkie dane"
             onClicked: {
-                FileIO.deleteJson()
+                FileIO.deleteJson("FridgeData")
                 stackView.pop()
                 itemsInFridgeModel.loadItemsFromFile()
                 stackView.push("FridgeScreen.qml")

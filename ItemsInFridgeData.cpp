@@ -4,7 +4,7 @@
 ItemsInFridgeModel::ItemsInFridgeModel()
 {
     FileIO fileIO;
-    fileIO.loadData();
+    fileIO.loadData("FridgeData");
     //addItem({"Banana", 5});
     //addItem({"Apple", 10});
     //addItem({"Orange", 7});
@@ -85,7 +85,7 @@ void ItemsInFridgeModel::addItemToFile(const ItemsInFridgeData &item)
 
 
     FileIO fileIO;
-    fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(item.name, item.count));
+    fileIO.saveData("FridgeData", fileIO.loadData("FridgeData"), fileIO.makeJsonFromFridge(item.name, item.count));
 }
 void ItemsInFridgeModel::addItemToFile(const QString &name, int count)
 {
@@ -97,7 +97,7 @@ void ItemsInFridgeModel::addItemToFile(const QString &name, int count)
 
 
     FileIO fileIO;
-    fileIO.saveData(fileIO.loadData(), fileIO.makeJsonFromFridge(name, count));
+    fileIO.saveData("FridgeData", fileIO.loadData("FridgeData"), fileIO.makeJsonFromFridge(name, count));
 }
 
 void ItemsInFridgeModel::removeItem(int index)
@@ -118,7 +118,7 @@ void ItemsInFridgeModel::loadItemsFromFile() {
 
 
     FileIO fileIO;
-    QJsonArray array = fileIO.loadData();
+    QJsonArray array = fileIO.loadData("FridgeData");
     for (const QJsonValue &valueOfArray : array) {
         if(!valueOfArray.isObject()){
             continue;
