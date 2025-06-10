@@ -5,6 +5,7 @@
 #include "FileIO.h"
 #include "RecipeBookData.h"
 #include "DebugModeHandle.h"
+#include "UserVariables.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("FileIO", &fileIO);
     static DebugModeHandle debugModeHandle;
     qmlRegisterSingletonInstance("DebugMode", 1, 0, "DebugMode", &debugModeHandle);
+    static UserVariables userVariables;
+    qmlRegisterSingletonInstance("UserVariables", 1, 0, "UserVariables", &userVariables);
 
 
     engine.loadFromModule("WeNeedToCook-mobile", "Main");
