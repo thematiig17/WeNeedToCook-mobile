@@ -5,6 +5,7 @@ import App.Models 1.0
 import Recipe.Models 1.0
 
 Item {
+
     ColumnLayout{
         spacing: 30
         anchors.horizontalCenter: parent.horizontalCenter
@@ -164,6 +165,13 @@ Item {
                     anchors.centerIn: parent
                     text: "SETT"
                 }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        stackView.push("SettingsScreen.qml")
+                    }
+                }
+
             }
 
         }

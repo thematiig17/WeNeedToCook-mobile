@@ -2,9 +2,18 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import App.Models 1.0
+import DebugMode
 
 Item {
-
+    Component.onCompleted: {
+        if (DebugMode.debugModeStatus() === true){
+            debugButtons.visible = true
+            console.log("debug mode: true")
+        } else {
+            debugButtons.visible = false
+            console.log("debug mode: false")
+        }
+    }
     ColumnLayout {
         spacing: 20
         anchors.top: parent.top
@@ -31,6 +40,7 @@ Item {
     //TEST DO USUNIECIA POTEM
     RowLayout {
         spacing: 20
+        id: debugButtons
         Button {
             text: "Dodaj testowe dane"
             onClicked: {

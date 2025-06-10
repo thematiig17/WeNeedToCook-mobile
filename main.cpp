@@ -4,6 +4,7 @@
 #include "ItemsInFridgeData.h"
 #include "FileIO.h"
 #include "RecipeBookData.h"
+#include "DebugModeHandle.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +24,8 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("Recipe.Models", 1, 0, "RecipeModel", &recipeModel);
     FileIO fileIO;
     engine.rootContext()->setContextProperty("FileIO", &fileIO);
+    static DebugModeHandle debugModeHandle;
+    qmlRegisterSingletonInstance("DebugMode", 1, 0, "DebugMode", &debugModeHandle);
 
 
     engine.loadFromModule("WeNeedToCook-mobile", "Main");
