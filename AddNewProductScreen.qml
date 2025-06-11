@@ -120,7 +120,7 @@ Item {
                 anchors.right: parent.right
                 anchors.margins: -300
                 onClicked: {
-                    FridgeModel.addItemToFile(nameField.text, amountField.text, unitSelector.currentText)
+                    FridgeModel.addItemToFile(nameField.text, amountField.text, unitSelector.currentText, noteArea.text)
                     FridgeModel.loadItemsFromFile()
                     stackView.pop() // wróć do listy
                 }

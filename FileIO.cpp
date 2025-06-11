@@ -31,22 +31,25 @@ QJsonArray FileIO::loadData(QString nameOfFile){
     return document.array();
 }
 
-QJsonObject FileIO::makeJsonFromFridge(QString name, int value, QString unit) {
+QJsonObject FileIO::makeJsonFromFridge(QString name, int value, QString unit, QString note) {
 
     QJsonObject temp_obj;
     temp_obj["name"] = name;
     temp_obj["value"] = value;
     temp_obj["unit"] = unit;
+    temp_obj["note"] = note;
+
     return temp_obj;
 
 }
 
-QJsonObject FileIO::makeJsonFromRecipe(QString name, int value, QString unit) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
+QJsonObject FileIO::makeJsonFromRecipe(QString name, int value, QString unit, QString note) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
 
     QJsonObject temp_obj;
     temp_obj["name"] = name;
     temp_obj["value"] = value;
     temp_obj["unit"] = unit;
+    temp_obj["note"] = note;
     return temp_obj;
 
 }
@@ -84,9 +87,9 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, const QJsonObject &ob
 
 
 void FileIO::createExampleJson(QString nameOfFile){
-    QJsonObject banana = makeJsonFromFridge("Banana", 5, "pcs");
-    QJsonObject apple = makeJsonFromFridge("Apple", 10, "pcs");
-    QJsonObject orange = makeJsonFromFridge("Orange", 7, "g");
+    QJsonObject banana = makeJsonFromFridge("Banana", 5, "pcs","cos");
+    QJsonObject apple = makeJsonFromFridge("Apple", 10, "pcs","cos");
+    QJsonObject orange = makeJsonFromFridge("Orange", 7, "g","cos");
 
     saveData(nameOfFile, loadData(nameOfFile), banana);
     saveData(nameOfFile, loadData(nameOfFile), apple);
