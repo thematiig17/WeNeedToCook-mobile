@@ -43,17 +43,6 @@ QJsonObject FileIO::makeJsonFromFridge(QString name, int value, QString unit, QS
 
 }
 
-QJsonObject FileIO::makeJsonFromRecipe(QString name, int value, QString unit, QString note) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
-
-    QJsonObject temp_obj;
-    temp_obj["name"] = name;
-    temp_obj["value"] = value;
-    temp_obj["unit"] = unit;
-    temp_obj["note"] = note;
-    return temp_obj;
-
-}
-
 QJsonObject FileIO::makeJsonFromRecipe(QString name, QString description, QStringList ingredients, QVariantList quantity) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
 
 
