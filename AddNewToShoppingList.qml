@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import App.Models 1.0
+import ShoppingList.Models 1.0
 Item {
     Page {
         visible:true
@@ -103,7 +103,7 @@ Item {
                 anchors.left: parent.left
                 anchors.margins: 25
                 onClicked: {
-                    FridgeModel.loadItemsFromFile()
+                    ShoppingListModel.loadItemsFromFile()
                     stackView.pop()
                 }
             }
@@ -120,8 +120,8 @@ Item {
                 anchors.right: parent.right
                 anchors.margins: -300
                 onClicked: {
-                    FridgeModel.addItemToFile(nameField.text, amountField.text, unitSelector.currentText, noteArea.text)
-                    FridgeModel.loadItemsFromFile()
+                    ShoppingListModel.addItemToFile(nameField.text, amountField.text, unitSelector.currentText)
+                    ShoppingListModel.loadItemsFromFile()
                     stackView.pop() // wróć do listy
                 }
             }

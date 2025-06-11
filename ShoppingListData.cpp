@@ -1,46 +1,44 @@
-#include "ItemsInFridgeData.h"
+#include "ShoppingList.h"
 #include "FileIO.h"
 
-ItemsInFridgeModel::ItemsInFridgeModel()
+ShoppingListModel::ShoppingListModel()
 {
     FileIO fileIO;
-    fileIO.loadData("FridgeData");
+    fileIO.loadData("ShoppingListData");
     //addItem({"Banana", 5});
     //addItem({"Apple", 10});
     //addItem({"Orange", 7});
 }
 
-int ItemsInFridgeModel::rowCount(const QModelIndex &) const
+int ShoppingListModel::rowCount(const QModelIndex &) const
 {
     return m_items.size();
 }
 
-QVariant ItemsInFridgeModel::data(const QModelIndex &index, int role) const
+QVariant ShoppingListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_items.size())
         return QVariant();
 
-    const ItemsInFridgeData &item = m_items[index.row()];
+    const ShoppingListData &item = m_items[index.row()];
     switch (role) {
     case NameRole: return item.name;
     case CountRole: return item.count;
     case UnitRole: return item.unit;
-    case NoteRole: return item.note;
     default: return QVariant();
     }
 }
 
-QHash<int, QByteArray> ItemsInFridgeModel::roleNames() const
+QHash<int, QByteArray> ShoppingListModel::roleNames() const
 {
     return {
         { NameRole, "name" },
         { CountRole, "count" },
-        { UnitRole, "unit" },
-        { NoteRole, "note"}
+        { UnitRole, "unit" }
     };
 }
 
-void ItemsInFridgeModel::addItem(const ItemsInFridgeData &item)
+void ShoppingListModel::addItem(const ShoppingListData &item)
 {
     if (item.name.length() > 10) {
         qWarning() << "Nazwa zbyt długa:" << item.name;
@@ -60,7 +58,7 @@ void ItemsInFridgeModel::addItem(const ItemsInFridgeData &item)
 }
 
 
-void ItemsInFridgeModel::addItem(const QString &name, int count, QString unit, QString note)
+void ShoppingListModel::addItem(const QString &name, int count, QString unit)
 {
     if (name.length() > 10) {
         qWarning() << "Name too long";
@@ -73,13 +71,13 @@ void ItemsInFridgeModel::addItem(const QString &name, int count, QString unit, Q
     }
 
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-    m_items.append({name, count, unit, note});
+    m_items.append({name, count, unit});
     endInsertRows();
 }
 
 
 
-void ItemsInFridgeModel::addItemToFile(const ItemsInFridgeData &item)
+void ShoppingListModel::addItemToFile(const ShoppingListData &item)
 {
     QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
     if (item.name.length() > 10 || !regex.match(item.name).hasMatch()) {
@@ -89,9 +87,9 @@ void ItemsInFridgeModel::addItemToFile(const ItemsInFridgeData &item)
 
 
     FileIO fileIO;
-    fileIO.saveData("FridgeData", fileIO.loadData("FridgeData"), fileIO.makeJsonFromFridge(item.name, item.count, item.unit, item.note));
+    fileIO.saveData("ShoppingListData", fileIO.loadData("ShoppingList"), fileIO.makeJsonFromShoppingList(item.name, item.count, item.unit));
 }
-void ItemsInFridgeModel::addItemToFile(const QString &name, int count, QString unit, QString note)
+void ShoppingListModel::addItemToFile(const QString &name, int count, QString unit)
 {
     QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
     if (name.length() > 10 || !regex.match(name).hasMatch()) {
@@ -101,10 +99,10 @@ void ItemsInFridgeModel::addItemToFile(const QString &name, int count, QString u
 
 
     FileIO fileIO;
-    fileIO.saveData("FridgeData", fileIO.loadData("FridgeData"), fileIO.makeJsonFromFridge(name, count, unit, note));
+    fileIO.saveData("ShoppingListData", fileIO.loadData("ShoppingListData"), fileIO.makeJsonFromShoppingList(name, count, unit));
 }
 
-void ItemsInFridgeModel::removeItem(int index)
+void ShoppingListModel::removeItem(int index)
 {
     if (index < 0 || index >= m_items.size())
         return;
@@ -114,7 +112,7 @@ void ItemsInFridgeModel::removeItem(int index)
     endRemoveRows();
 }
 
-void ItemsInFridgeModel::loadItemsFromFile() {
+void ShoppingListModel::loadItemsFromFile() {
 
     /*Usuniecie danych obecnych juz w modelu*/
     beginResetModel();   // powiadomienie QML że dane się zmienią
@@ -122,7 +120,7 @@ void ItemsInFridgeModel::loadItemsFromFile() {
 
 
     FileIO fileIO;
-    QJsonArray array = fileIO.loadData("FridgeData");
+    QJsonArray array = fileIO.loadData("ShoppingListData");
     for (const QJsonValue &valueOfArray : array) {
         if(!valueOfArray.isObject()){
             continue;
@@ -133,16 +131,15 @@ void ItemsInFridgeModel::loadItemsFromFile() {
         QString name = obj["name"].toString();
         int value = obj["value"].toInt();
         QString unit = obj["unit"].toString();
-        QString note = obj["note"].toString();
 
-        addItem({name, value, unit, note});
-        qDebug() << "ItemsInFridgeData.cpp | loadItemsFromFile() | Odczytano!";
+        addItem({name, value, unit});
+        qDebug() << "ShoppingListData.cpp | loadItemsFromFile() | Odczytano!";
 
     }
     emit countChanged();
     endResetModel(); // powiadomienie że dane się zmieniły
 }
 
-int ItemsInFridgeModel::count() const {
+int ShoppingListModel::count() const {
     return m_items.count();
 }

@@ -28,11 +28,32 @@ Item {
                 id: unitSelector
                 model: ["g", "ml", "pcs"]
             }
+            Row{
 
+            Rectangle{
+                    width:350
+                    height: 200
+                    border.color: "gray"
+                    border.width:1
+                    radius:5
+
+
+                TextArea{
+                id:noteArea
+                width:350
+                height: 200
+                anchors.fill:parent
+                anchors.margins:5
+                placeholderText:"Enter note..."
+                wrapMode: TextArea.Wrap
+                }
+                }
+
+            }
             Button {
                 text: "Add"
                 onClicked: {
-                    RecipeModel.addItemToFile(nameField.text, countField.value, unitSelector.currentText)
+                    RecipeModel.addItemToFile(nameField.text, countField.value, unitSelector.currentText,noteArea.text)
                     RecipeModel.loadItemsFromFile()
                     stackView.pop() // wróć do listy
                 }
