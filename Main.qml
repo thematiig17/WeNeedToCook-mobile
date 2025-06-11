@@ -12,5 +12,7 @@ ApplicationWindow {
         id: stackView
         anchors.fill: parent
         initialItem: MainScreen {}
+
     }
+
 }

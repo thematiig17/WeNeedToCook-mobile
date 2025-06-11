@@ -32,7 +32,15 @@ Item {
 
                 var view = parent
                 while (view && !view.pop) view = view.parent
-                if (view) view.pop()
+
+                if (view) {
+                    // Odśwież tekst w poprzednim widoku
+                    var previousItem = view.currentItem
+                    if (previousItem && previousItem.refresh) {
+                        previousItem.refresh()
+                    }
+                    view.pop()
+                }
             }
         }
         CheckBox {
