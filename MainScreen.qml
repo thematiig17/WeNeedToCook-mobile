@@ -3,8 +3,10 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import App.Models 1.0
 import Recipe.Models 1.0
+import UserVariables
 
 Item {
+
     ColumnLayout{
         spacing: 30
         anchors.horizontalCenter: parent.horizontalCenter
@@ -20,7 +22,7 @@ Item {
             font.pointSize: 48 //wielkosc tekstu
             font.family: "Helvetica" //czcionka
             id: hello_user //id
-            text: qsTr("Hello {user}!")
+            text: qsTr("Hello " + UserVariables.getNameOfUser() + "!")
         }
         Rectangle{//tutaj warning trzeba dodac
             height: 50
@@ -164,6 +166,13 @@ Item {
                     anchors.centerIn: parent
                     text: "SETT"
                 }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        stackView.push("SettingsScreen.qml")
+                    }
+                }
+
             }
 
         }
