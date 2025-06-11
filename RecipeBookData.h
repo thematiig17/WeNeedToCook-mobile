@@ -6,9 +6,9 @@
 
 struct RecipeBookData {
     QString name;
-    int count;
-    QString unit;
-    QString note;
+    QString description;
+    QStringList ingredients;
+    QVariantList quantity;
 };
 
 class RecipeBookModel : public QAbstractListModel {
@@ -21,10 +21,10 @@ public:
     Q_INVOKABLE int count() const;
 
     enum ItemRoles { //enumeracja, nadajemy nazwy liczbom
-        NameRole = Qt::UserRole + 1,
-        CountRole,
-        UnitRole,
-        NoteRole
+        NameRole = 900,
+        DescriptionRole,
+        IngredientsRole,
+        QuantityRole
     };
     RecipeBookModel(); //konstruktor
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -34,8 +34,8 @@ public:
     Q_INVOKABLE void loadItemsFromFile();
 
     void addItem(const RecipeBookData &item);
-    Q_INVOKABLE void addItem(const QString &name, int count, QString unit,QString note);
-    Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit,QString note);
+    Q_INVOKABLE void addItem(const QString &name, QString description, QStringList ingredients, QVariantList quantity);
+    Q_INVOKABLE void addItemToFile(const QString &name, QString description, QStringList ingredients, QVariantList quantity);
     void addItemToFile(const RecipeBookData &item);
     Q_INVOKABLE void removeItem(int index);
 

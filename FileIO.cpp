@@ -54,13 +54,26 @@ QJsonObject FileIO::makeJsonFromRecipe(QString name, int value, QString unit, QS
 
 }
 
-QJsonObject FileIO::makeJsonFromShoppingList(QString name, int value, QString unit) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
+QJsonObject FileIO::makeJsonFromRecipe(QString name, QString description, QStringList ingredients, QVariantList quantity) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
 
-    QJsonObject temp_obj;
-    temp_obj["name"] = name;
-    temp_obj["value"] = value;
-    temp_obj["unit"] = unit;
-    return temp_obj;
+
+    QJsonObject ingredientsObject;
+
+    for (int i = 0; i < ingredients.size(); ++i) {
+        QJsonObject item;
+        item["name"] = ingredients[i];
+        item["quantity"] = quantity[i].toDouble();
+        ingredientsObject[ingredients[i]] = item;
+    }
+
+    // Jeden przepis
+    QJsonObject recipe;
+    recipe["name"] = name;
+    recipe["description"] = description;
+    recipe["ingredients"] = ingredientsObject;
+
+    return recipe;
+
 
 }
 

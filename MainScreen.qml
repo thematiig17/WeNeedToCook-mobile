@@ -6,7 +6,8 @@ import Recipe.Models 1.0
 import ShoppingList.Models 1.0
 import UserVariables
 
-Item {
+Page {
+    id: mainScreenRoot
 
     ColumnLayout{
         spacing: 30
@@ -23,8 +24,9 @@ Item {
             font.pointSize: 48 //wielkosc tekstu
             font.family: "Helvetica" //czcionka
             id: hello_user //id
-            text: qsTr("Hello " + UserVariables.getNameOfUser() + "!")
+            text: "Hello " + UserVariables.getNameOfUser() + "!"
         }
+
         Rectangle{//tutaj warning trzeba dodac
             height: 50
             color: "transparent"
@@ -209,6 +211,14 @@ Item {
     }
 
     property var stackView*/
+
+    onVisibleChanged: {
+            if (visible) {
+                hello_user.text = "Hello " + UserVariables.getNameOfUser() + "!"
+            }
+        }
 }
+
+
 
 
