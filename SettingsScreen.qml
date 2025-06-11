@@ -34,11 +34,6 @@ Item {
                 while (view && !view.pop) view = view.parent
 
                 if (view) {
-                    // Odśwież tekst w poprzednim widoku
-                    var previousItem = view.currentItem
-                    if (previousItem && previousItem.refresh) {
-                        previousItem.refresh()
-                    }
                     view.pop()
                 }
             }

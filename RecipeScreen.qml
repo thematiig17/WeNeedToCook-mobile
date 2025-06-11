@@ -68,22 +68,27 @@ Item {
                     }
 
                     Text {
-                        //text: count + unit
-                        text: {
-                                if (unit === "ml" && count > 1000) {
-                                    return (count / 1000) + "L";
-                                } else if (unit === "g" && count >= 1000) {
-                                    return (count / 1000) + "kg";
-                                } else {
-                                    return count + unit;
-                                }
-                            }
+                        text: description
                         font.pixelSize : 22
                         Layout.alignment: Qt.AlignRight
                         horizontalAlignment: Text.AlignRight
                         Layout.preferredWidth: 120
                     }
                 }
+
+                Repeater {
+                   model: ingredients.length
+
+                   Row {
+                       spacing: 6
+                       Text {
+                           text: ingredients[index] + ":"
+                       }
+                       Text {
+                           text: quantity[index]
+                       }
+                   }
+               }
 
                 Row {
                     spacing:4
