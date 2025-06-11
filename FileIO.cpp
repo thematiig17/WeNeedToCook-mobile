@@ -64,7 +64,6 @@ QJsonObject FileIO::makeJsonFromRecipe(QString name, QString description, QStrin
     return recipe;
 
 
-
 }
 
 bool FileIO::saveData(QString nameOfFile, QJsonArray data, const QJsonObject &object){
