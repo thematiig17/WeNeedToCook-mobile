@@ -4,6 +4,7 @@
 #include "ItemsInFridgeData.h"
 #include "FileIO.h"
 #include "RecipeBookData.h"
+#include "ShoppingList.h"
 #include "DebugModeHandle.h"
 #include "UserVariables.h"
 
@@ -23,6 +24,8 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("App.Models", 1, 0, "FridgeModel", &fridgeModel);
     static RecipeBookModel recipeModel;
     qmlRegisterSingletonInstance("Recipe.Models", 1, 0, "RecipeModel", &recipeModel);
+    static ShoppingListModel shoppinglistModel;
+    qmlRegisterSingletonInstance("ShoppingList.Models", 1, 0, "ShoppingListModel", &shoppinglistModel);
     FileIO fileIO;
     engine.rootContext()->setContextProperty("FileIO", &fileIO);
     static DebugModeHandle debugModeHandle;

@@ -1,19 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import App.Models 1.0
-import DebugMode
+import ShoppingList.Models 1.0
 
 Item {
-    Component.onCompleted: {
-        if (DebugMode.debugModeStatus() === true){
-            debugButtons.visible = true
-            console.log("debug mode: true")
-        } else {
-            debugButtons.visible = false
-            console.log("debug mode: false")
-        }
-    }
+
     ColumnLayout {
         spacing: 20
         anchors.top: parent.top
@@ -27,7 +18,7 @@ Item {
         anchors.topMargin: 60
 
     Text{
-        text: "My Fridge"
+        text: "Shopping list"
         color: "black"
         font.pixelSize : 30
         Layout.topMargin: 10
@@ -37,41 +28,12 @@ Item {
         Layout.bottomMargin: -5
     }
 
-    //TEST DO USUNIECIA POTEM
-    RowLayout {
-        spacing: 20
-        id: debugButtons
-        Button {
-            text: "Dodaj testowe dane"
-            onClicked: {
-                FileIO.createExampleJson("FridgeData")
-                stackView.pop()
-                FridgeModel.loadItemsFromFile()
-                stackView.push("FridgeScreen.qml")
-            }
-        }
-        Button {
-            text: "Usun wszystkie dane"
-            onClicked: {
-                FileIO.deleteJson("FridgeData")
-                stackView.pop()
-                FridgeModel.loadItemsFromFile()
-                stackView.push("FridgeScreen.qml")
-            }
-        }
-    }
-
-
-    //TEST DO USUNIECIA POTEM
-
-    Text { text: "Model count: " + FridgeModel.count }
-
     ListView {
         //anchors.fill: parent
         Layout.fillWidth: true
         Layout.fillHeight: true
         clip: true
-        model: FridgeModel
+        model: ShoppingListModel
 
         header: Rectangle {
             width: parent.width
@@ -81,14 +43,7 @@ Item {
 
         delegate: Item {
             width: parent.width
-            height: 50 +(showNote ? noteText.implicitHeight + 16 :0)
-            property bool showNote: false
-
-            MouseArea {
-                   id: clickArea
-                   width: parent.width
-                   height: 50
-                   onClicked: showNote = !showNote
+            height: 50
 
             Column {
                 spacing: 6
@@ -107,10 +62,10 @@ Item {
                         elide: Text.ElideRight
 
                     }
-                    Item { width: 1; height: 24 }
 
-                                Item { Layout.fillWidth: true }
-
+                    Item {
+                        Layout.fillWidth: true
+                    }
 
                     Text {
                         //text: count + unit
@@ -129,23 +84,6 @@ Item {
                         Layout.preferredWidth: 120
                     }
                 }
-                Item {
-                        width: parent.width
-                        visible: showNote
-                        height: showNote ? noteText.implicitHeight + 20 : 0 // padding
-                        Behavior on height { NumberAnimation { duration: 200 } }
-
-                        Text {
-                            id: noteText
-                            anchors.fill: parent
-                            anchors.margins: 10
-                            text: note
-                            wrapMode: Text.Wrap
-                            font.pixelSize: 18
-                            color: "purple"
-                            visible: parent.visible
-                        }
-                }
 
                 Row {
                     spacing:4
@@ -162,10 +100,8 @@ Item {
 
                     }
                 }
-            }}
-
+            }
         }
-
     }
 
         Button {
@@ -188,7 +124,7 @@ Item {
     }
     Button {
         text: "<font color=\"#FFFFFF\">+</font>"
-        font.pixelSize : 26
+        font.pixelSize : 22
         background: Rectangle {
         color: "SteelBlue"
         radius: 20
@@ -199,7 +135,7 @@ Item {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 16
-        onClicked: stackView.push("AddNewProductScreen.qml")
+        onClicked: stackView.push("AddNewToShoppingList.qml")
 
 }
 }

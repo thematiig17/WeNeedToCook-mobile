@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import App.Models 1.0
 import Recipe.Models 1.0
+import ShoppingList.Models 1.0
 import UserVariables
 
 Page {
@@ -56,6 +57,8 @@ Page {
                     anchors.fill: parent
                     onClicked: {
                         console.log("Open Shopping List")
+                        ShoppingListModel.loadItemsFromFile()
+                        stackView.push("ShoppingListScreen.qml")
                     }
                 }
             }

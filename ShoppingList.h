@@ -1,19 +1,17 @@
-#ifndef ITEMSINFRIDGEDATA_H
-#define ITEMSINFRIDGEDATA_H
-
+#ifndef SHOPPINGLIST_H
+#define SHOPPINGLIST_H
 #include <QString>
 #include <QAbstractListModel>
 
-struct ItemsInFridgeData {
+struct ShoppingListData {
     QString name;
     int count;
     QString unit;
-    QString note;
 };
 
-class ItemsInFridgeModel : public QAbstractListModel {
+class ShoppingListModel : public QAbstractListModel {
     Q_OBJECT
-    QList<ItemsInFridgeData> m_items;
+    QList<ShoppingListData> m_items;
 public:
     //do ogloszenia zmiany wartosci
     Q_PROPERTY(int count READ count NOTIFY countChanged)
@@ -23,22 +21,20 @@ public:
     enum ItemRoles { //enumeracja, nadajemy nazwy liczbom
         NameRole = Qt::UserRole + 1,
         CountRole,
-        UnitRole,
-        NoteRole
+        UnitRole
     };
-    ItemsInFridgeModel(); //konstruktor
+    ShoppingListModel(); //konstruktor
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void loadItemsFromFile();
 
-    void addItem(const ItemsInFridgeData &item);
-    Q_INVOKABLE void addItem(const QString &name, int count, QString unit,QString note);
-    Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit, QString note);
-    void addItemToFile(const ItemsInFridgeData &item);
+    void addItem(const ShoppingListData &item);
+    Q_INVOKABLE void addItem(const QString &name, int count, QString unit);
+    Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit);
+    void addItemToFile(const ShoppingListData &item);
     Q_INVOKABLE void removeItem(int index);
 
 };
-
-#endif // ITEMSINFRIDGEDATA_H
+#endif // SHOPPINGLIST_H
