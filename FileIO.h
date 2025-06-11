@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE bool saveData(QString nameOfFile, QJsonArray data, const QJsonObject &object); //zapis danych, TRUE - udany zapis, FALSE - nieudany zapis, przyjmuje json ktory trzeba zapisac
     Q_INVOKABLE QJsonObject makeJsonFromFridge(QString name, int value, QString unit);
     Q_INVOKABLE QJsonObject makeJsonFromRecipe(QString name, int value, QString unit); //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
+    Q_INVOKABLE QJsonObject makeJsonFromShoppingList(QString name, int value, QString unit); //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
     Q_INVOKABLE QJsonArray loadData(QString nameOfFile); //Wczytuje danem zwraca json
 
     Q_INVOKABLE void createExampleJson(QString nameOfFile);
