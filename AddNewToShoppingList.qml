@@ -120,7 +120,7 @@ Item {
                 anchors.right: parent.right
                 anchors.margins: -300
                 onClicked: {
-                    ShoppingListModel.addItemToFile(nameField.text, amountField.text, unitSelector.currentText)
+                    ShoppingListModel.addItemToFile(nameField.text, amountField.text, unitSelector.currentText,noteArea.text)
                     ShoppingListModel.loadItemsFromFile()
                     stackView.pop() // wróć do listy
                 }

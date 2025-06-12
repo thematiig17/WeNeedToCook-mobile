@@ -12,12 +12,7 @@ Page {
     ColumnLayout{
         spacing: 30
         anchors.horizontalCenter: parent.horizontalCenter
-        //testowe
-        Text {
-            text: "Fridge count: " + FridgeModel.count
-            anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+
         Text {
             Layout.topMargin: 100
             Layout.alignment: Qt.AlignHCenter //wysrodkowanie

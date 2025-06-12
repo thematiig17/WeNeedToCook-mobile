@@ -25,6 +25,7 @@ QVariant ShoppingListModel::data(const QModelIndex &index, int role) const
     case NameRole: return item.name;
     case CountRole: return item.count;
     case UnitRole: return item.unit;
+    case NoteRole: return item.note;
     default: return QVariant();
     }
 }
@@ -34,7 +35,8 @@ QHash<int, QByteArray> ShoppingListModel::roleNames() const
     return {
         { NameRole, "name" },
         { CountRole, "count" },
-        { UnitRole, "unit" }
+        { UnitRole, "unit" },
+        {NoteRole, "note"}
     };
 }
 
@@ -58,7 +60,7 @@ void ShoppingListModel::addItem(const ShoppingListData &item)
 }
 
 
-void ShoppingListModel::addItem(const QString &name, int count, QString unit)
+void ShoppingListModel::addItem(const QString &name, int count, QString unit, QString note)
 {
     if (name.length() > 10) {
         qWarning() << "Name too long";
@@ -71,7 +73,7 @@ void ShoppingListModel::addItem(const QString &name, int count, QString unit)
     }
 
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-    m_items.append({name, count, unit});
+    m_items.append({name, count, unit, note});
     endInsertRows();
 }
 
@@ -87,9 +89,9 @@ void ShoppingListModel::addItemToFile(const ShoppingListData &item)
 
 
     FileIO fileIO;
-    fileIO.saveData("ShoppingListData", fileIO.loadData("ShoppingList"), fileIO.makeJsonFromShoppingList(item.name, item.count, item.unit));
+    fileIO.saveData("ShoppingListData", fileIO.loadData("ShoppingList"), fileIO.makeJsonFromShoppingList(item.name, item.count, item.unit, item.note));
 }
-void ShoppingListModel::addItemToFile(const QString &name, int count, QString unit)
+void ShoppingListModel::addItemToFile(const QString &name, int count, QString unit, QString note)
 {
     QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
     if (name.length() > 10 || !regex.match(name).hasMatch()) {
@@ -99,7 +101,7 @@ void ShoppingListModel::addItemToFile(const QString &name, int count, QString un
 
 
     FileIO fileIO;
-    fileIO.saveData("ShoppingListData", fileIO.loadData("ShoppingListData"), fileIO.makeJsonFromShoppingList(name, count, unit));
+    fileIO.saveData("ShoppingListData", fileIO.loadData("ShoppingListData"), fileIO.makeJsonFromShoppingList(name, count, unit, note));
 }
 
 void ShoppingListModel::removeItem(int index)
@@ -131,8 +133,9 @@ void ShoppingListModel::loadItemsFromFile() {
         QString name = obj["name"].toString();
         int value = obj["value"].toInt();
         QString unit = obj["unit"].toString();
+        QString note = obj["note"].toString();
 
-        addItem({name, value, unit});
+        addItem({name, value, unit, note});
         qDebug() << "ShoppingListData.cpp | loadItemsFromFile() | Odczytano!";
 
     }

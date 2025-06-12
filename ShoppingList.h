@@ -7,6 +7,7 @@ struct ShoppingListData {
     QString name;
     int count;
     QString unit;
+    QString note;
 };
 
 class ShoppingListModel : public QAbstractListModel {
@@ -21,7 +22,8 @@ public:
     enum ItemRoles { //enumeracja, nadajemy nazwy liczbom
         NameRole = Qt::UserRole + 1,
         CountRole,
-        UnitRole
+        UnitRole,
+        NoteRole
     };
     ShoppingListModel(); //konstruktor
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -31,8 +33,8 @@ public:
     Q_INVOKABLE void loadItemsFromFile();
 
     void addItem(const ShoppingListData &item);
-    Q_INVOKABLE void addItem(const QString &name, int count, QString unit);
-    Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit);
+    Q_INVOKABLE void addItem(const QString &name, int count, QString unit, QString note);
+    Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit, QString note);
     void addItemToFile(const ShoppingListData &item);
     Q_INVOKABLE void removeItem(int index);
 

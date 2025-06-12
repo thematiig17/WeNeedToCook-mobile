@@ -81,7 +81,7 @@ Item {
 
         delegate: Item {
             width: parent.width
-            height: 50 +(showNote ? noteText.implicitHeight + 16 :0)
+            height: 50 +(showNote ? noteText.implicitHeight + 50 :0)
             property bool showNote: false
 
             MouseArea {
@@ -132,7 +132,7 @@ Item {
                 Item {
                         width: parent.width
                         visible: showNote
-                        height: showNote ? noteText.implicitHeight + 20 : 0 // padding
+                        height: showNote ? noteText.implicitHeight + 50 : 0 // padding
                         Behavior on height { NumberAnimation { duration: 200 } }
 
                         Text {
@@ -144,6 +144,49 @@ Item {
                             font.pixelSize: 18
                             color: "purple"
                             visible: parent.visible
+                        }
+
+                        Row{
+                        spacing:245
+                        anchors.left: parent.left
+                        anchors.bottom:parent.bottom
+
+                        Button{
+                            text: "<font color=\"#FFFFFF\">Delete</font>"
+                            background: Rectangle {
+                            color: "Red"
+                            radius: 5
+                            opacity: 1.0
+                        }
+                            width : 60
+                            height :30
+                            // trzeba zmienic na dowolny item zeby nie usuwalo wszystkiego :(
+                            onClicked: {
+                                FileIO.deleteJson("FridgeData")
+                                stackView.pop()
+                                FridgeModel.loadItemsFromFile()
+                                stackView.push("FridgeScreen.qml")
+                            }
+
+
+
+
+                        }
+                        // trzeba zrobic zeby nadpisywalo informacje lub usuwalo xddd i wpisywalo nowe
+                        Button{
+                            text: "<font color=\"#FFFFFF\">Edit</font>"
+                            background: Rectangle {
+                            color: "SteelBlue"
+                            radius: 5
+                            opacity: 1.0
+                        }
+                            width : 60
+                            height :30
+
+
+
+
+                        }
                         }
                 }
 
@@ -169,7 +212,7 @@ Item {
     }
 
         Button {
-            text: "<font color=\"#FFFFFF\"> GO BACK</font>"
+            text: "<font color=\"#FFFFFF\"> Go Back</font>"
             font.pixelSize : 22
             background: Rectangle {
             color: "SteelBlue"
