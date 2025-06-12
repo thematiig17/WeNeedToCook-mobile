@@ -32,7 +32,10 @@ Item {
 
                 var view = parent
                 while (view && !view.pop) view = view.parent
-                if (view) view.pop()
+
+                if (view) {
+                    view.pop()
+                }
             }
         }
         CheckBox {

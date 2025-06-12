@@ -23,9 +23,9 @@ QVariant RecipeBookModel::data(const QModelIndex &index, int role) const
     const RecipeBookData &item = m_items[index.row()];
     switch (role) {
     case NameRole: return item.name;
-    case CountRole: return item.count;
-    case UnitRole: return item.unit;
-    case NoteRole: return item.note;
+    case DescriptionRole: return item.description;
+    case IngredientsRole: return item.ingredients;
+    case QuantityRole: return item.quantity;
     default: return QVariant();
     }
 }
@@ -34,9 +34,9 @@ QHash<int, QByteArray> RecipeBookModel::roleNames() const
 {
     return {
         { NameRole, "name" },
-        { CountRole, "count" },
-        { UnitRole, "unit" },
-        { NoteRole,"note"}
+        { DescriptionRole, "description" },
+        { IngredientsRole, "ingredients" },
+        { QuantityRole, "quantity" }
     };
 }
 
@@ -60,7 +60,7 @@ void RecipeBookModel::addItem(const RecipeBookData &item)
 }
 
 
-void RecipeBookModel::addItem(const QString &name, int count, QString unit, QString note)
+void RecipeBookModel::addItem(const QString &name, QString description, QStringList ingredients, QVariantList quantity)
 {
     if (name.length() > 10) {
         qWarning() << "Name too long";
@@ -73,7 +73,7 @@ void RecipeBookModel::addItem(const QString &name, int count, QString unit, QStr
     }
 
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-    m_items.append({name, count, unit, note});
+    m_items.append({name, description, ingredients, quantity});
     endInsertRows();
 }
 
@@ -89,9 +89,9 @@ void RecipeBookModel::addItemToFile(const RecipeBookData &item)
 
 
     FileIO fileIO;
-    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(item.name, item.count, item.unit, item.note));
+    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(item.name, item.description, item.ingredients, item.quantity));
 }
-void RecipeBookModel::addItemToFile(const QString &name, int count, QString unit, QString note)
+void RecipeBookModel::addItemToFile(const QString &name, QString description, QStringList ingredients, QVariantList quantity)
 {
     QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
     if (name.length() > 10 || !regex.match(name).hasMatch()) {
@@ -101,7 +101,7 @@ void RecipeBookModel::addItemToFile(const QString &name, int count, QString unit
 
 
     FileIO fileIO;
-    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(name, count, unit, note));
+    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(name, description, ingredients, quantity));
 }
 
 void RecipeBookModel::removeItem(int index)
@@ -130,12 +130,28 @@ void RecipeBookModel::loadItemsFromFile() {
 
         QJsonObject obj = valueOfArray.toObject();
 
-        QString name = obj["name"].toString();
-        int value = obj["value"].toInt();
-        QString unit = obj["unit"].toString();
-        QString note = obj["note"].toString();
+        RecipeBookData recipe;
+        recipe.name = obj["name"].toString();
+        recipe.description = obj["description"].toString();
 
-        addItem({name, value, unit, note});
+        QJsonObject ingredientsObj = obj["ingredients"].toObject();
+        QStringList ingredients;
+        QVariantList quantities;
+
+        for (const QString &key : ingredientsObj.keys()) {
+            QJsonObject ingredientData = ingredientsObj[key].toObject();
+            QString name = ingredientData["name"].toString();
+            double quantity = ingredientData["quantity"].toDouble();
+
+            ingredients.append(name);
+            quantities.append(quantity);
+        }
+
+        recipe.ingredients = ingredients;
+        recipe.quantity = quantities;
+
+        addItem(recipe);
+
         qDebug() << "RecipeBookData.cpp | loadItemsFromFile() | Odczytano!";
 
     }

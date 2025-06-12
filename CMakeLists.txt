@@ -17,22 +17,24 @@ qt_add_qml_module(appWeNeedToCook-mobile
     VERSION 1.0
     QML_FILES
         Main.qml
-        QML_FILES MainScreen.qml
-        QML_FILES SettingsScreen.qml
-        QML_FILES FridgeScreen.qml
-        SOURCES ItemsInFridgeData.h ItemsInFridgeData.cpp
-        QML_FILES AddNewProductScreen.qml
-        SOURCES FileIO.h FileIO.cpp
-        SOURCES RecipeBookData.h
-        SOURCES RecpieBookData.cpp
-        QML_FILES RecipeScreen.qml
-        QML_FILES AddNewRecipeScreen.qml
-        SOURCES DebugModeHandle.h DebugModeHandle.cpp
-        SOURCES UserVariables.h UserVariables.cpp
-        SOURCES ShoppingList.h
-        SOURCES ShoppingListData.cpp
-        QML_FILES ShoppingListScreen.qml
-        QML_FILES AddNewToShoppingList.qml
+        MainScreen.qml
+        SettingsScreen.qml
+        FridgeScreen.qml
+        AddNewProductScreen.qml
+        RecipeScreen.qml
+        AddNewRecipeScreen.qml
+        ShoppingListScreen.qml
+        AddNewToShoppingList.qml
+    SOURCES
+        ItemsInFridgeData.h ItemsInFridgeData.cpp
+        FileIO.h FileIO.cpp
+        RecipeBookData.h
+        RecpieBookData.cpp
+        DebugModeHandle.h DebugModeHandle.cpp
+        UserVariables.h UserVariables.cpp
+        ShoppingList.h
+        ShoppingListData.cpp
+
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
