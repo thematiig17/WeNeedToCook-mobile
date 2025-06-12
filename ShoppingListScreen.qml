@@ -43,7 +43,14 @@ Item {
 
         delegate: Item {
             width: parent.width
-            height: 50
+            height: 50 +(showNote ? noteText.implicitHeight + 50 :0)
+            property bool showNote: false
+
+            MouseArea {
+                   id: clickArea
+                   width: parent.width
+                   height: 50
+                   onClicked: showNote = !showNote
 
             Column {
                 spacing: 6
@@ -62,10 +69,10 @@ Item {
                         elide: Text.ElideRight
 
                     }
+                    Item { width: 1; height: 24 }
 
-                    Item {
-                        Layout.fillWidth: true
-                    }
+                                Item { Layout.fillWidth: true }
+
 
                     Text {
                         //text: count + unit
@@ -84,6 +91,62 @@ Item {
                         Layout.preferredWidth: 120
                     }
                 }
+                                        Item{
+
+                                        width: parent.width
+                                        visible: showNote
+                                        height: showNote ? noteText.implicitHeight + 50 : 0
+                                        Behavior on height { NumberAnimation { duration: 200 } }
+
+                                        Text {
+                                            id: noteText
+                                            anchors.fill: parent
+                                            anchors.margins: 10
+                                            text: note
+                                            wrapMode: Text.Wrap
+                                            font.pixelSize: 18
+                                            color: "purple"
+                                            visible: parent.visible
+                                        }
+
+                                        Row{
+                                        spacing:245
+                                        anchors.left: parent.left
+                                        anchors.bottom:parent.bottom
+
+                                        Button{
+                                            text: "<font color=\"#FFFFFF\">Delete</font>"
+                                            background: Rectangle {
+                                            color: "Red"
+                                            radius: 5
+                                            opacity: 1.0
+                                        }
+                                            width : 60
+                                            height :30
+                                            // trzeba zmienic na dowolny item zeby nie usuwalo wszystkiego :(
+
+
+
+
+
+                                        }
+                                        // trzeba zrobic zeby nadpisywalo informacje lub usuwalo xddd i wpisywalo nowe
+                                        Button{
+                                            text: "<font color=\"#FFFFFF\">Edit</font>"
+                                            background: Rectangle {
+                                            color: "SteelBlue"
+                                            radius: 5
+                                            opacity: 1.0
+                                        }
+                                            width : 60
+                                            height :30
+
+
+
+
+                                        }
+                                        }
+                                }
 
                 Row {
                     spacing:4
@@ -100,7 +163,8 @@ Item {
 
                     }
                 }
-            }
+            }}
+
         }
     }
 

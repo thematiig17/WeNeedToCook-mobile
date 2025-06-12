@@ -66,11 +66,12 @@ QJsonObject FileIO::makeJsonFromRecipe(QString name, QString description, QStrin
 
 }
 
-QJsonObject FileIO::makeJsonFromShoppingList(QString name, int value, QString unit) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
+QJsonObject FileIO::makeJsonFromShoppingList(QString name, int value, QString unit, QString note) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
     QJsonObject temp_obj;
     temp_obj["name"] = name;
     temp_obj["value"] = value;
     temp_obj["unit"] = unit;
+    temp_obj["note"] = note;
     return temp_obj;
 }
 
