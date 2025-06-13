@@ -15,12 +15,12 @@ Page {
         }
 
     ColumnLayout{
-        spacing: 30
+        spacing: 20
         anchors.horizontalCenter: parent.horizontalCenter
         Text {
-            Layout.topMargin: 80
+            Layout.topMargin: 60
             Layout.alignment: Qt.AlignHCenter //wysrodkowanie
-            font.pointSize: 48 //wielkosc tekstu
+            font.pointSize: 40 //wielkosc tekstu
             font.family: "Helvetica" //czcionka
             text: "WeNeedToCook"
             color: "#3A3B3C"
@@ -28,9 +28,8 @@ Page {
         }
 
         Text {
-            Layout.bottomMargin: 30
             Layout.alignment: Qt.AlignHCenter //wysrodkowanie
-            font.pointSize: 36 //wielkosc tekstu
+            font.pointSize: 28 //wielkosc tekstu
             font.family: "Helvetica" //czcionka
             id: hello_user //id
             text: "Hello " + UserVariables.getNameOfUser() + "!"
