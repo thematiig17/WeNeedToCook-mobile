@@ -169,8 +169,8 @@ Item {
     }
 
         Button {
-            text: "<font color=\"#FFFFFF\"> GO BACK</font>"
-            font.pixelSize : 22
+            text: "<font color=\"#FFFFFF\"> Go Back</font>"
+            font.pixelSize : 26
             background: Rectangle {
             color: "SteelBlue"
             radius: 20
@@ -188,7 +188,7 @@ Item {
     }
     Button {
         text: "<font color=\"#FFFFFF\">+</font>"
-        font.pixelSize : 22
+        font.pixelSize : 26
         background: Rectangle {
         color: "SteelBlue"
         radius: 20
