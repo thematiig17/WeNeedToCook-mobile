@@ -18,7 +18,6 @@ Item {
         spacing: 20
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.leftMargin: 10
