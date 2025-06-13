@@ -60,11 +60,10 @@ Item {
 
             Button {
                 text: "<font color=\"#FFFFFF\"> Go Back</font>"
-                font.pixelSize : 22
-
+                font.pixelSize : 26
                 background: Rectangle {
                 color: "SteelBlue"
-                radius: 5
+                radius: 20
                 opacity: 1.0
                 }
                 width : 140
@@ -72,7 +71,6 @@ Item {
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
                 anchors.margins: 20
-
 
 
                 onClicked: {

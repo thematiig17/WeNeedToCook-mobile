@@ -212,7 +212,7 @@ Item {
 
         Button {
             text: "<font color=\"#FFFFFF\"> Go Back</font>"
-            font.pixelSize : 22
+            font.pixelSize : 26
             background: Rectangle {
             color: "SteelBlue"
             radius: 20
@@ -222,8 +222,7 @@ Item {
             height :35
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            anchors.margins: 16
-
+            anchors.margins: 20
             onClicked: stackView.pop()
 
         }
