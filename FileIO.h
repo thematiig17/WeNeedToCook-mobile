@@ -11,7 +11,7 @@ class FileIO : public QObject
 public:
     explicit FileIO(QObject *parent = nullptr); //konstrutkor
 
-    Q_INVOKABLE bool saveData(QString nameOfFile, QJsonArray data, const QJsonObject &object); //zapis danych, TRUE - udany zapis, FALSE - nieudany zapis, przyjmuje json ktory trzeba zapisac
+    Q_INVOKABLE bool saveData(QString nameOfFile, QJsonArray data, QJsonObject object); //zapis danych, TRUE - udany zapis, FALSE - nieudany zapis, przyjmuje json ktory trzeba zapisac
 
     Q_INVOKABLE QJsonObject makeJsonFromRecipe(QString name, QString description, QStringList ingredients, QVariantList quantity); //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
     Q_INVOKABLE QJsonObject makeJsonFromFridge(QString name, int value, QString unit, QString note);
