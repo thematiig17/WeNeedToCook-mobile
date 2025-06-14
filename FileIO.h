@@ -22,6 +22,8 @@ public:
     Q_INVOKABLE void createExampleJson(QString nameOfFile);
     Q_INVOKABLE void deleteJson(QString nameOfFile);
 
+    Q_INVOKABLE void deleteByName(QString nameOfFile, QString name);
+
 private:
     QString getFilePath(QString nameOfFile) const; //zwraca sciezke
 

@@ -167,7 +167,7 @@ Item {
                             height :30
                             // trzeba zmienic na dowolny item zeby nie usuwalo wszystkiego :(
                             onClicked: {
-                                FileIO.deleteJson("FridgeData")
+                                FileIO.deleteByName("FridgeData", name)
                                 stackView.pop()
                                 FridgeModel.loadItemsFromFile()
                                 stackView.push("FridgeScreen.qml")

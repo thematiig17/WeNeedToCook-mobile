@@ -118,3 +118,18 @@ void FileIO::deleteJson(QString nameOfFile) {
         file.close();
     }
 }
+
+void FileIO::deleteByName(QString nameOfFile, QString name) {
+    QJsonArray baseFile = loadData(nameOfFile);
+    QJsonArray filteredFile;
+
+    for (const QJsonValue &val : baseFile) {
+        QJsonObject object = val.toObject();
+        if (object["name"].toString() != name) {
+            filteredFile.append(object);
+        }
+    }
+
+    QJsonObject emptyObject;
+    saveData(nameOfFile, filteredFile, emptyObject);
+}
