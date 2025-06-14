@@ -3,11 +3,21 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import ShoppingList.Models 1.0
 Item {
+    Rectangle {
+            anchors.fill: parent
+            color: "#FAF0DC" // lub inny kolor tła, np. "#ffffff"
+            z: 0 // tło musi być pod innymi elementami
+        }
     Page {
         visible:true
         title: "Add new product"
         height:300
         width:300
+        Rectangle {
+                anchors.fill: parent
+                color: "#FAF0DC"
+                z: 0
+            }
 
         ColumnLayout {
             anchors.centerIn: parent
@@ -17,6 +27,7 @@ Item {
 
             Text{
                 text:"Add new product"
+                color:"#3A3B3C"
                 font.bold:true
                 font.pointSize: 33
                    }
@@ -26,6 +37,7 @@ Item {
 
                 Text{
                 text:"Name:"
+                color:"#3A3B3C"
                 anchors.verticalCenter: parent.verticalCenter
                 width: 60
                 height:20
@@ -35,19 +47,34 @@ Item {
                 id: nameField
                 anchors.verticalCenter: parent.verticalCenter
                 height:30
+                width:150
+                background: Rectangle {
+                            color: "white"
+                            border.color: "#EED0B6"
+                            border.width: 2
+                            radius: 4
+                        }
 
             }
             }
             Row{
                 spacing:10
                 Text{
-                text:"Amount:";width: 60
+                text:"Amount:"
+                color:"#3A3B3C"
+                width: 60
                 }
             TextField {
                 id: amountField
                 width: 80
                 height:30
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
+                background: Rectangle {
+                            color: "white"
+                            border.color: "#EED0B6"
+                            border.width: 2
+                            radius: 4
+                        }
 
             }
             }
@@ -56,6 +83,7 @@ Item {
 
             Text{
                 text:"Unit:"
+                color:"#3A3B3C"
                 width: 60
 
                 }
@@ -64,6 +92,12 @@ Item {
                 width:90
                 height:30
                 model: ["g", "ml", "pcs"]
+                background: Rectangle {
+                            color: "white"
+                            border.color: "#EED0B6"
+                            border.width: 2
+                            radius: 4
+                        }
             }
             }
             Row{
@@ -71,7 +105,7 @@ Item {
             Rectangle{
                     width:350
                     height: 200
-                    border.color: "gray"
+                    border.color: "#3A3B3C"
                     border.width:1
                     radius:5
 
@@ -81,9 +115,15 @@ Item {
                 width:350
                 height: 200
                 anchors.fill:parent
-                anchors.margins:5
+                anchors.margins:0
                 placeholderText:"Enter note..."
                 wrapMode: TextArea.Wrap
+                background: Rectangle {
+                            color: "white"
+                            border.color: "#EED0B6"
+                            border.width: 2
+                            radius: 4
+                        }
                 }
                 }
 
@@ -91,11 +131,13 @@ Item {
         Row{
 
             Button {
-                text: "<font color=\"#FFFFFF\">Cancel</font>"
+                text: "<font color=\"#3A3B3C\">Cancel</font>"
                 font.pixelSize : 26
                 background: Rectangle {
-                color: "SteelBlue"
-                radius: 20
+                color: "white"
+                border.color: "#EED0B6"
+                border.width: 3
+                radius: 5
                 opacity: 1.0
         }
                 width : 100
@@ -108,11 +150,13 @@ Item {
                 }
             }
             Button {
-                text: "<font color=\"#FFFFFF\">Add</font>"
+                text: "<font color=\"#3A3B3C\">Add</font>"
                 font.pixelSize : 26
                 background: Rectangle {
-                color: "SteelBlue"
-                radius: 20
+                color: "white"
+                border.color: "#EED0B6"
+                border.width: 3
+                radius: 5
                 opacity: 1.0
         }
                 width : 80

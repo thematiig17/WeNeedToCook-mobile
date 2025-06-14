@@ -24,15 +24,15 @@ Item {
             font.pixelSize : 30
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - 40
+            width: parent.width - 60
             Layout.bottomMargin: -5
             anchors.margins: 16
         }
         Rectangle{
-            color:"black"
-            width: parent.width - 40
+            color:"#EED0B6"
+            width: parent.width - 60
             Layout.alignment: Qt.AlignCenter
-            height: 1
+            height: 3
         }
         CheckBox {
             id: debugModeEnabled
@@ -43,6 +43,7 @@ Item {
 
         Text{
             text: "Enter your name: "
+            color: "black"
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -55,15 +56,18 @@ Item {
             anchors.margins: 5
             text: UserVariables.getNameOfUser()
 
+
         }
 }
 
             Button {
-                text: "<font color=\"#FFFFFF\"> Go Back</font>"
+                text: "<font color=\"#3A3B3C\"> Go Back</font>"
                 font.pixelSize : 26
                 background: Rectangle {
-                color: "SteelBlue"
-                radius: 20
+                color: "white"
+                border.color: "#EED0B6"
+                border.width: 3
+                radius: 7
                 opacity: 1.0
                 }
                 width : 140

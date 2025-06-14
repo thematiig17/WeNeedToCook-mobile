@@ -4,7 +4,11 @@ import QtQuick.Layouts
 import ShoppingList.Models 1.0
 
 Item {
-
+    Rectangle {
+            anchors.fill: parent
+            color: "#FAF0DC" // lub inny kolor tła, np. "#ffffff"
+            z: 0 // tło musi być pod innymi elementami
+        }
     ColumnLayout {
         spacing: 20
         anchors.top: parent.top
@@ -19,13 +23,19 @@ Item {
 
     Text{
         text: "Shopping list"
-        color: "black"
+        color: "#3A3B3C"
         font.pixelSize : 30
         Layout.topMargin: 10
         horizontalAlignment: Text.AlignHCenter
         width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
         Layout.bottomMargin: -5
+    }
+    Rectangle {
+        width: parent.width
+        height: 4
+        radius:50
+        color: "#EED0B6"
     }
 
     ListView {
@@ -35,11 +45,6 @@ Item {
         clip: true
         model: ShoppingListModel
 
-        header: Rectangle {
-            width: parent.width
-            height: 1
-            color: "black"
-        }
 
         delegate: Item {
             width: parent.width
@@ -62,6 +67,7 @@ Item {
 
                     Text {
                         text: name
+                        color: "#3A3B3C"
                         font.pixelSize : 22
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
@@ -85,6 +91,7 @@ Item {
                                     return count + unit;
                                 }
                             }
+                        color:"#3A3B3C"
                         font.pixelSize : 22
                         Layout.alignment: Qt.AlignRight
                         horizontalAlignment: Text.AlignRight
@@ -105,7 +112,7 @@ Item {
                                             text: note
                                             wrapMode: Text.Wrap
                                             font.pixelSize: 18
-                                            color: "purple"
+                                            color: "#3A3B3C"
                                             visible: parent.visible
                                         }
 
@@ -115,9 +122,11 @@ Item {
                                         anchors.bottom:parent.bottom
 
                                         Button{
-                                            text: "<font color=\"#FFFFFF\">Delete</font>"
+                                            text: "<font color=\"#3A3B3C\">Delete</font>"
                                             background: Rectangle {
-                                            color: "Red"
+                                            color: "#EA917E"
+                                            border.color: "#DA5033"
+                                            border.width:3
                                             radius: 5
                                             opacity: 1.0
                                         }
@@ -132,9 +141,11 @@ Item {
                                         }
                                         // trzeba zrobic zeby nadpisywalo informacje lub usuwalo xddd i wpisywalo nowe
                                         Button{
-                                            text: "<font color=\"#FFFFFF\">Edit</font>"
+                                            text: "<font color=\"#3A3B3C\">Edit</font>"
                                             background: Rectangle {
-                                            color: "SteelBlue"
+                                            color: "#76C2E9"
+                                            border.color:"SteelBlue"
+                                            border.width: 3
                                             radius: 5
                                             opacity: 1.0
                                         }
@@ -156,8 +167,8 @@ Item {
 
                         Rectangle{
                             width : 4
-                            height:2
-                            color: "black"
+                            height:3
+                            color: "#EED0B6"
                         }
 
 
@@ -169,11 +180,13 @@ Item {
     }
 
         Button {
-            text: "<font color=\"#FFFFFF\"> Go Back</font>"
+            text: "<font color=\"#3A3B3C\"> Go Back</font>"
             font.pixelSize : 26
             background: Rectangle {
-            color: "SteelBlue"
-            radius: 20
+            color: "white"
+            border.color: "#EED0B6"
+            border.width: 3
+            radius: 5
             opacity: 1.0
             }
             width : 140
@@ -181,24 +194,26 @@ Item {
             anchors.left: parent.left
             anchors.bottom: parent.bottom
             anchors.margins: 16
-
             onClicked: stackView.pop()
 
         }
     }
     Button {
-        text: "<font color=\"#FFFFFF\">+</font>"
+        text: "<font color=\"#3A3B3C\">+</font>"
         font.pixelSize : 26
         background: Rectangle {
-        color: "SteelBlue"
-        radius: 20
+        color: "white"
+        border.color: "#EED0B6"
+        border.width: 3
+        radius: 5
         opacity: 1.0
 }
         width : 40
-        height : 40
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 16
+        anchors.rightMargin: 27
+
         onClicked: stackView.push("AddNewToShoppingList.qml")
 
 }
