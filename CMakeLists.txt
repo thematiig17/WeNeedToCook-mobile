@@ -34,6 +34,8 @@ qt_add_qml_module(appWeNeedToCook-mobile
         UserVariables.h UserVariables.cpp
         ShoppingList.h
         ShoppingListData.cpp
+        QML_FILES InfoScreen.qml
+        QML_FILES TeamScreen.qml
 
 )
 

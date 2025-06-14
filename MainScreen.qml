@@ -158,18 +158,14 @@ Page {
                 color: "white"
                 Text{
                     anchors.centerIn: parent
-                    text: "BLANK"
+                    text: "TEAM"
                     color: "#3A3B3C"
                 }
-            }
-            Rectangle{
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                color: "white"
-                Text{
-                    anchors.centerIn: parent
-                    text: "QUE?"
-                    color: "#3A3B3C"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        stackView.push("TeamScreen.qml")
+                    }
                 }
             }
             Rectangle{
@@ -180,6 +176,12 @@ Page {
                     anchors.centerIn: parent
                     text: "INFO"
                     color: "#3A3B3C"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        stackView.push("InfoScreen.qml")
+                    }
                 }
             }
             Rectangle{
