@@ -75,19 +75,47 @@ QJsonObject FileIO::makeJsonFromShoppingList(QString name, int value, QString un
     return temp_obj;
 }
 
-bool FileIO::saveData(QString nameOfFile, QJsonArray data, const QJsonObject &object){
+bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
+
+
+    bool doValueExists = false;
+
+
+    for (const QJsonValue &val : data) {
+        QJsonObject objectAlreadyInFile = val.toObject();
+        if (objectAlreadyInFile["name"].toString() == object["name"].toString()) {
+            //object["value"] = objectAlreadyInFile["value"].toInt() + object["value"].toInt();
+            int sum = object["value"].toInt() + objectAlreadyInFile["value"].toInt();
+
+            qDebug() << "obj[v] = " << object["value"].toInt(); //7
+            qDebug() << "objAlr = " << objectAlreadyInFile["value"].toInt(); //7
+
+            object.insert("value", QJsonValue(sum));
+
+            qDebug() << "sum: " << sum; //14
+            qDebug() << "obj[v] = " << object["value"].toInt(); //7
+
+
+            //editExistingEntry(nameOfFile, object["name"].toString(), object);
+            doValueExists = true;
+        }
+    }
+
+    if (!object.isEmpty()) {
+        data.append(object);
+    }
+
 
     QFile file(getFilePath(nameOfFile));
     if (!file.open(QIODevice::WriteOnly)){
         return false;
     }
 
-    data.append(object);
-
     QJsonDocument doc(data);
     file.write(doc.toJson());
     file.close();
     return true;
+
 
 
 
@@ -117,4 +145,36 @@ void FileIO::deleteJson(QString nameOfFile) {
         file.write(doc.toJson());
         file.close();
     }
+}
+
+void FileIO::deleteByName(QString nameOfFile, QString name) {
+    QJsonArray baseFile = loadData(nameOfFile);
+    QJsonArray filteredFile;
+
+    for (const QJsonValue &val : baseFile) {
+        QJsonObject object = val.toObject();
+        if (object["name"].toString() != name) {
+            filteredFile.append(object);
+        }
+    }
+
+    QJsonObject emptyObject;
+    saveData(nameOfFile, filteredFile, emptyObject);
+}
+
+void FileIO::editExistingEntry(QString nameOfFile, QString name, QJsonObject newEntry) {
+    QJsonArray baseFile = loadData(nameOfFile);
+    QJsonArray filteredFile;
+
+    for (const QJsonValue &val : baseFile) {
+        QJsonObject object = val.toObject();
+        if (object["name"].toString() == name) {
+            filteredFile.append(newEntry);
+        }
+        else {
+            filteredFile.append(object);
+        }
+    }
+    QJsonObject emptyObject;
+    saveData(nameOfFile, filteredFile, emptyObject);
 }

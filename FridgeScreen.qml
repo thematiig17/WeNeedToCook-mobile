@@ -79,7 +79,6 @@ Item {
         clip: true
         model: FridgeModel
 
-
         delegate: Item {
             width: parent.width
             height: 50 +(showNote ? noteText.implicitHeight + 50 :0)
@@ -165,9 +164,9 @@ Item {
                         }
                             width : 60
                             height :30
-                            // trzeba zmienic na dowolny item zeby nie usuwalo wszystkiego :(
+                            // strona sie nie reloaduje sama, moze to nie jakos turbo wazne ale jak ktos ma czas moze zrobic xD
                             onClicked: {
-                                FileIO.deleteJson("FridgeData")
+                                FileIO.deleteByName("FridgeData", name)
                                 stackView.pop()
                                 FridgeModel.loadItemsFromFile()
                                 stackView.push("FridgeScreen.qml")
@@ -186,9 +185,16 @@ Item {
                             border.width: 3
                             radius: 5
                             opacity: 1.0
+
                         }
                             width : 60
                             height :30
+                            onClicked: {
+                                FileIO.editExistingEntry("FridgeData", name, FileIO.makeJsonFromFridge("Banana", 999, "pcs","cmienioone"))
+                                stackView.pop()
+                                FridgeModel.loadItemsFromFile()
+                                stackView.push("FridgeScreen.qml")
+                            }
 
 
 
