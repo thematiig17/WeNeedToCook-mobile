@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void deleteJson(QString nameOfFile);
 
     Q_INVOKABLE void deleteByName(QString nameOfFile, QString name);
+    Q_INVOKABLE void editExistingEntry(QString nameOfFile, QString name, QJsonObject newEntry);
 
 private:
     QString getFilePath(QString nameOfFile) const; //zwraca sciezke

@@ -81,8 +81,9 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, const QJsonObject &ob
     if (!file.open(QIODevice::WriteOnly)){
         return false;
     }
-
-    data.append(object);
+    if (!object.isEmpty()) {
+        data.append(object);
+    }
 
     QJsonDocument doc(data);
     file.write(doc.toJson());
@@ -130,6 +131,23 @@ void FileIO::deleteByName(QString nameOfFile, QString name) {
         }
     }
 
+    QJsonObject emptyObject;
+    saveData(nameOfFile, filteredFile, emptyObject);
+}
+
+void FileIO::editExistingEntry(QString nameOfFile, QString name, QJsonObject newEntry) {
+    QJsonArray baseFile = loadData(nameOfFile);
+    QJsonArray filteredFile;
+
+    for (const QJsonValue &val : baseFile) {
+        QJsonObject object = val.toObject();
+        if (object["name"].toString() == name) {
+            filteredFile.append(newEntry);
+        }
+        else {
+            filteredFile.append(object);
+        }
+    }
     QJsonObject emptyObject;
     saveData(nameOfFile, filteredFile, emptyObject);
 }
