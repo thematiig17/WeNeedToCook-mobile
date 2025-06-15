@@ -42,14 +42,22 @@ QHash<int, QByteArray> ShoppingListModel::roleNames() const
 
 void ShoppingListModel::addItem(const ShoppingListData &item)
 {
-    if (item.name.length() > 10) {
+    if (item.name.length() > 30) {
         qWarning() << "Nazwa zbyt długa:" << item.name;
         return;
     }
+    else if (item.note.length() > 120) {
+        qWarning() << "Nazwa zbyt długa:" << item.note;
+        return;
+    }
 
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
     if (!regex.match(item.name).hasMatch()) {
         qWarning() << "Nazwa zawiera niedozwolone znaki:" << item.name;
+        return;
+    }
+    if (!regex.match(item.note).hasMatch()) {
+        qWarning() << "Nazwa zawiera niedozwolone znaki:" << item.note;
         return;
     }
 
@@ -62,13 +70,21 @@ void ShoppingListModel::addItem(const ShoppingListData &item)
 
 void ShoppingListModel::addItem(const QString &name, int count, QString unit, QString note)
 {
-    if (name.length() > 10) {
+    if (name.length() > 30) {
         qWarning() << "Name too long";
         return;
     }
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    else if (note.length() > 120) {
+        qWarning() << "Nazwa zbyt długa:" << note;
+        return;
+    }
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
     if (!regex.match(name).hasMatch()) {
         qWarning() << "Nazwa zawiera niedozwolone znaki:" << name;
+        return;
+    }
+    if (!regex.match(note).hasMatch()) {
+        qWarning() << "Nazwa zawiera niedozwolone znaki:" << note;
         return;
     }
 
@@ -81,8 +97,8 @@ void ShoppingListModel::addItem(const QString &name, int count, QString unit, QS
 
 void ShoppingListModel::addItemToFile(const ShoppingListData &item)
 {
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
-    if (item.name.length() > 10 || !regex.match(item.name).hasMatch()) {
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
+    if (item.name.length() > 30 || item.note.length() > 120 || !regex.match(item.name).hasMatch() || !regex.match(item.note).hasMatch()) {
         qWarning() << "Błędna nazwa — nie zapisano do pliku:";
         return;
     }
@@ -93,8 +109,8 @@ void ShoppingListModel::addItemToFile(const ShoppingListData &item)
 }
 void ShoppingListModel::addItemToFile(const QString &name, int count, QString unit, QString note)
 {
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
-    if (name.length() > 10 || !regex.match(name).hasMatch()) {
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
+    if (name.length() > 30 || note.length() > 120 || !regex.match(name).hasMatch() || !regex.match(note).hasMatch()) {
         qWarning() << "Błędna nazwa — nie zapisano do pliku:";
         return;
     }

@@ -42,14 +42,22 @@ QHash<int, QByteArray> RecipeBookModel::roleNames() const
 
 void RecipeBookModel::addItem(const RecipeBookData &item)
 {
-    if (item.name.length() > 10) {
+    if (item.name.length() > 30) {
         qWarning() << "Nazwa zbyt długa:" << item.name;
         return;
     }
+    else if (item.description.length() > 180) {
+        qWarning() << "Nazwa zbyt długa:" << item.description;
+        return;
+    }
 
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
     if (!regex.match(item.name).hasMatch()) {
         qWarning() << "Nazwa zawiera niedozwolone znaki:" << item.name;
+        return;
+    }
+    if (!regex.match(item.description).hasMatch()) {
+        qWarning() << "Nazwa zawiera niedozwolone znaki:" << item.description;
         return;
     }
 
@@ -62,13 +70,21 @@ void RecipeBookModel::addItem(const RecipeBookData &item)
 
 void RecipeBookModel::addItem(const QString &name, QString description, QStringList ingredients, QVariantList quantity)
 {
-    if (name.length() > 10) {
+    if (name.length() > 30) {
         qWarning() << "Name too long";
         return;
     }
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
+    else if (description.length() > 180) {
+        qWarning() << "Nazwa zbyt długa:" << description;
+        return;
+    }
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
     if (!regex.match(name).hasMatch()) {
         qWarning() << "Nazwa zawiera niedozwolone znaki:" << name;
+        return;
+    }
+    if (!regex.match(description).hasMatch()) {
+        qWarning() << "Nazwa zawiera niedozwolone znaki:" << description;
         return;
     }
 
@@ -81,8 +97,8 @@ void RecipeBookModel::addItem(const QString &name, QString description, QStringL
 
 void RecipeBookModel::addItemToFile(const RecipeBookData &item)
 {
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
-    if (item.name.length() > 10 || !regex.match(item.name).hasMatch()) {
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
+    if (item.name.length() > 30 || item.description.length() > 180 || !regex.match(item.name).hasMatch() || !regex.match(item.description).hasMatch()) {
         qWarning() << "Błędna nazwa — nie zapisano do pliku:";
         return;
     }
@@ -93,8 +109,8 @@ void RecipeBookModel::addItemToFile(const RecipeBookData &item)
 }
 void RecipeBookModel::addItemToFile(const QString &name, QString description, QStringList ingredients, QVariantList quantity)
 {
-    QRegularExpression regex("^[a-zA-Z .,]{1,50}$");
-    if (name.length() > 10 || !regex.match(name).hasMatch()) {
+    QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
+    if (name.length() > 30 || description.length() > 180 || !regex.match(name).hasMatch() || !regex.match(description).hasMatch()) {
         qWarning() << "Błędna nazwa — nie zapisano do pliku:";
         return;
     }

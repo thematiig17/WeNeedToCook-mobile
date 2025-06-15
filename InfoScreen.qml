@@ -13,17 +13,17 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 10
+        spacing: 5
         anchors.horizontalCenter: parent.horizontalCenter
 
         Text{
-            Layout.topMargin: 75
+            Layout.topMargin: parent.height * 0.15
             text: "About our app"
             color: "#3A3B3C"
             font.pixelSize : 30
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            Layout.bottomMargin: -5
+            Layout.bottomMargin: parent.height * -0.04
             anchors.margins: 16
         }
         Rectangle {
@@ -35,7 +35,7 @@ Item {
         }
 
         Rectangle {
-            Layout.topMargin: -50
+            Layout.topMargin: parent.height * -0.1
             anchors.horizontalCenter: parent.horizontalCenter
             Layout.preferredHeight: parent.height * 0.5
             Layout.preferredWidth: parent.width * 0.8
