@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import App.Models 1.0
 import DebugMode
 
-Item {
+Page {
     Rectangle{
         anchors.fill: parent
         z:0
@@ -190,10 +190,9 @@ Item {
                             width : 60
                             height :30
                             onClicked: {
-                                FileIO.editExistingEntry("FridgeData", name, FileIO.makeJsonFromFridge("Banana", 999, "pcs","cmienioone"))
-                                stackView.pop()
-                                FridgeModel.loadItemsFromFile()
-                                stackView.push("FridgeScreen.qml")
+                                console.log("DANE PRZEKAZYWANE:", name, count, unit, note)
+                                stackView.push("EditProductScreen.qml", {"passedName": name, "passedValue": count, "passedUnit": unit, "passedNote": note})
+                                //stackView.push(Qt.resolvedUrl("EditProductScreen.qml"))
                             }
 
 

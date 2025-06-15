@@ -81,7 +81,7 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
     bool doValueExists = false;
 
 
-    for (const QJsonValue &val : data) {
+    /*for (const QJsonValue &val : data) {
         QJsonObject objectAlreadyInFile = val.toObject();
         if (objectAlreadyInFile["name"].toString() == object["name"].toString()) {
             //object["value"] = objectAlreadyInFile["value"].toInt() + object["value"].toInt();
@@ -99,7 +99,7 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
             //editExistingEntry(nameOfFile, object["name"].toString(), object);
             doValueExists = true;
         }
-    }
+    }*/
 
     if (!object.isEmpty()) {
         data.append(object);
@@ -175,6 +175,6 @@ void FileIO::editExistingEntry(QString nameOfFile, QString name, QJsonObject new
             filteredFile.append(object);
         }
     }
-    QJsonObject emptyObject;
+    QJsonObject emptyObject = QJsonObject();
     saveData(nameOfFile, filteredFile, emptyObject);
 }
