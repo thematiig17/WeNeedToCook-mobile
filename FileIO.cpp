@@ -77,38 +77,27 @@ QJsonObject FileIO::makeJsonFromShoppingList(QString name, int value, QString un
 }
 
 bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
+    bool valueExists = false;
 
-
-    bool doValueExists = false;
-
-
-    /*for (const QJsonValue &val : data) {
-        QJsonObject objectAlreadyInFile = val.toObject();
-        if (objectAlreadyInFile["name"].toString() == object["name"].toString()) {
-            //object["value"] = objectAlreadyInFile["value"].toInt() + object["value"].toInt();
-            int sum = object["value"].toInt() + objectAlreadyInFile["value"].toInt();
-
-            qDebug() << "obj[v] = " << object["value"].toInt(); //7
-            qDebug() << "objAlr = " << objectAlreadyInFile["value"].toInt(); //7
-
-            object.insert("value", QJsonValue(sum));
-
-            qDebug() << "sum: " << sum; //14
-            qDebug() << "obj[v] = " << object["value"].toInt(); //7
-
-
-            //editExistingEntry(nameOfFile, object["name"].toString(), object);
-            doValueExists = true;
+    // Szukamy istniejącego obiektu i aktualizujemy go
+    for (int i = 0; i < data.size(); ++i) {
+        QJsonObject existingObj = data[i].toObject();
+        if (existingObj["name"].toString() == object["name"].toString()) {
+            int newValue = existingObj["value"].toInt() + object["value"].toInt();
+            existingObj["value"] = newValue;
+            data[i] = existingObj;  // Zaktualizuj obiekt w tablicy
+            valueExists = true;
+            break;
         }
-    }*/
+    }
 
-    if (!object.isEmpty()) {
+    // Jeśli nie znaleziono istniejącego obiektu, dodaj nowy
+    if (!valueExists && !object.isEmpty()) {
         data.append(object);
     }
 
-
     QFile file(getFilePath(nameOfFile));
-    if (!file.open(QIODevice::WriteOnly)){
+    if (!file.open(QIODevice::WriteOnly)) {
         return false;
     }
 
@@ -116,13 +105,6 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
     file.write(doc.toJson());
     file.close();
     return true;
-
-
-
-
-    /*(!saveData(temp_array)){
-        qWarning() << "FileIO.cpp | makeJsonFromFridge() | Blad utworzenia pozycji json z tekstu!"
-    }*/
 }
 
 
@@ -137,7 +119,6 @@ void FileIO::createExampleJson(QString nameOfFile){
         saveData(nameOfFile, loadData(nameOfFile), orange);
     }
     else if (nameOfFile == "RecipeData"){
-        QJsonArray tempdata;
         QStringList opcje = {"skladnik1", "skladnik2", "skladnik3"};
         QVariantList liczby = {"1", "2", "3"};
         QStringList jednostki = {"pcs", "pcs", "ml"};
@@ -150,6 +131,13 @@ void FileIO::createExampleJson(QString nameOfFile){
         saveData(nameOfFile, loadData(nameOfFile), jajecznica);
         saveData(nameOfFile, loadData(nameOfFile), makeJsonFromRecipe("Testowy", "Opistest", opcje, liczby, jednostki));
 
+    }
+    else if (nameOfFile == "ShoppingListData"){
+        QJsonObject grapes = makeJsonFromShoppingList("Grapes", 20, "pcs", "For eating");
+        QJsonObject milk = makeJsonFromShoppingList("Milk", 1000, "mL", "For drinking");
+
+        saveData(nameOfFile, loadData(nameOfFile), grapes);
+        saveData(nameOfFile, loadData(nameOfFile), milk);
     }
 
 
