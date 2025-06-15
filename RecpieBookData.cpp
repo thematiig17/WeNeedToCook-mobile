@@ -26,6 +26,7 @@ QVariant RecipeBookModel::data(const QModelIndex &index, int role) const
     case DescriptionRole: return item.description;
     case IngredientsRole: return item.ingredients;
     case QuantityRole: return item.quantity;
+    case UnitsRole: return item.units;
     default: return QVariant();
     }
 }
@@ -36,7 +37,8 @@ QHash<int, QByteArray> RecipeBookModel::roleNames() const
         { NameRole, "name" },
         { DescriptionRole, "description" },
         { IngredientsRole, "ingredients" },
-        { QuantityRole, "quantity" }
+        { QuantityRole, "quantity" },
+        { UnitsRole, "units" }
     };
 }
 
@@ -68,7 +70,7 @@ void RecipeBookModel::addItem(const RecipeBookData &item)
 }
 
 
-void RecipeBookModel::addItem(const QString &name, QString description, QStringList ingredients, QVariantList quantity)
+void RecipeBookModel::addItem(const QString &name, QString description, QStringList ingredients, QVariantList quantity, QStringList units)
 {
     if (name.length() > 30) {
         qWarning() << "Name too long";
@@ -89,7 +91,7 @@ void RecipeBookModel::addItem(const QString &name, QString description, QStringL
     }
 
     beginInsertRows(QModelIndex(), m_items.size(), m_items.size());
-    m_items.append({name, description, ingredients, quantity});
+    m_items.append({name, description, ingredients, quantity, units});
     endInsertRows();
 }
 
@@ -105,9 +107,9 @@ void RecipeBookModel::addItemToFile(const RecipeBookData &item)
 
 
     FileIO fileIO;
-    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(item.name, item.description, item.ingredients, item.quantity));
+    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(item.name, item.description, item.ingredients, item.quantity, item.units));
 }
-void RecipeBookModel::addItemToFile(const QString &name, QString description, QStringList ingredients, QVariantList quantity)
+void RecipeBookModel::addItemToFile(const QString &name, QString description, QStringList ingredients, QVariantList quantity, QStringList units)
 {
     QRegularExpression regex("^[a-zA-Z0-9 .,()\n]{1,180}$");
     if (name.length() > 30 || description.length() > 180 || !regex.match(name).hasMatch() || !regex.match(description).hasMatch()) {
@@ -117,7 +119,7 @@ void RecipeBookModel::addItemToFile(const QString &name, QString description, QS
 
 
     FileIO fileIO;
-    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(name, description, ingredients, quantity));
+    fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(name, description, ingredients, quantity, units));
 }
 
 void RecipeBookModel::removeItem(int index)
@@ -153,18 +155,22 @@ void RecipeBookModel::loadItemsFromFile() {
         QJsonObject ingredientsObj = obj["ingredients"].toObject();
         QStringList ingredients;
         QVariantList quantities;
+        QStringList units;
 
         for (const QString &key : ingredientsObj.keys()) {
             QJsonObject ingredientData = ingredientsObj[key].toObject();
             QString name = ingredientData["name"].toString();
             double quantity = ingredientData["quantity"].toDouble();
+            QString unit = ingredientData["unit"].toString();
 
             ingredients.append(name);
             quantities.append(quantity);
+            units.append(unit);
         }
 
         recipe.ingredients = ingredients;
         recipe.quantity = quantities;
+        recipe.units = units;
 
         addItem(recipe);
 

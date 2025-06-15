@@ -1,180 +1,134 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import Recipe.Models 1.0
-Item {
-    Rectangle {
-            anchors.fill: parent
-            color: "#FAF0DC"
-            z:0
-        }
-    Page{
-        visible:true
-        title: "Add new product"
-        height:300
-        width:300
 
-        Rectangle {
-                anchors.fill: parent
-                color: "#FAF0DC"
-                z: 0
-            }
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import Recipe.Models 1.0
+
+Page {
+    id: addRecipePage
+    title: "Add new recipe"
+    Rectangle {
+        anchors.fill: parent
+        color: "#FAF0DC"
+        z:0
+    }
+
+    ListModel {
+        id: ingredientsModel
+    }
+
+    ScrollView {
+        width: parent.width * 0.9
+        anchors.centerIn: parent
+        height: parent.height
+        spacing: 10
+        anchors.topMargin: 20
 
         ColumnLayout {
+            width: parent.width
             anchors.centerIn: parent
             spacing: 10
-            width: parent.width * 0.8
-            height:50
 
-            Text{
-                text:"Add new recipe"
-                color:"#3A3B3C"
-                font.bold:true
-                font.pointSize: 33
-                   }
-
-            Row {
-                spacing:10
-
-                Text{
-                text:"Name:"
-                color:"#3A3B3C"
-                anchors.verticalCenter: parent.verticalCenter
-                width: 60
-                height:20
-                }
-
-                TextField {
-                id: nameField
-                anchors.verticalCenter: parent.verticalCenter
-                height:30
-                width:150
-                background: Rectangle {
-                            color: "white"
-                            border.color: "#EED0B6"
-                            border.width: 2
-                            radius: 4
-                        }
-
+            Text {
+                text: "Add new recipe"
+                font.pointSize: 24
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                Layout.alignment: Qt.AlignHCenter
             }
-            }
-            Row{
-                spacing:10
-                Text{
-                text:"Amount:"
-                color:"#3A3B3C"
-                width: 60
-                }
+
             TextField {
-                id: amountField
-                width: 80
-                height:30
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
-                background: Rectangle {
-                            color: "white"
-                            border.color: "#EED0B6"
-                            border.width: 2
-                            radius: 4
-                        }
-
+                id: nameField
+                placeholderText: "Recipe name"
+                Layout.fillWidth: true
             }
+
+            TextArea {
+                id: noteArea
+                placeholderText: "Description"
+                wrapMode: TextEdit.Wrap
+                Layout.fillWidth: true
+                Layout.preferredHeight: 100
             }
-            Row{
-                spacing:-5
 
-            Text{
-                text:"Unit:"
-                color:"#3A3B3C"
-                width: 60
+            Text {
+                text: "Ingredients"
+                font.bold: true
+                Layout.topMargin: 10
+            }
 
+            Repeater {
+                model: ingredientsModel
+                delegate: RowLayout {
+                    spacing: 8
+
+                    TextField {
+                        placeholderText: "Name"
+                        text: model.name
+                        onTextChanged: ingredientsModel.setProperty(index, "name", text)
+                        Layout.preferredWidth: 120
+                    }
+
+                    TextField {
+                        placeholderText: "Amount"
+                        text: model.amount
+                        inputMethodHints: Qt.ImhFormattedNumbersOnly
+                        onTextChanged: ingredientsModel.setProperty(index, "amount", text)
+                        Layout.preferredWidth: 60
+                    }
+
+                    ComboBox {
+                        model: ["g", "ml", "pcs"]
+                        currentIndex: find(model.unit)
+                        onCurrentTextChanged: ingredientsModel.setProperty(index, "unit", currentText)
+                        Layout.preferredWidth: 80
+                    }
+
+                    Button {
+                        text: "-"
+                        onClicked: ingredientsModel.remove(index)
+                    }
                 }
-            ComboBox {
-                id: unitSelector
-                width:90
-                height:30
-                model: ["g", "ml", "pcs"]
-                background: Rectangle {
-                            color: "white"
-                            border.color: "#EED0B6"
-                            border.width: 2
-                            radius: 4
-                        }
             }
-            }
-            Row{
-
-            Rectangle{
-                    width:350
-                    height: 200
-                    border.color: "#3A3B3C"
-                    border.width:1
-                    radius:5
-
-
-                TextArea{
-                id:noteArea
-                color:"#3A3B3C"
-                width:350
-                height: 200
-                anchors.fill:parent
-                anchors.margins:0
-                placeholderText:"Enter note..."
-                wrapMode: TextArea.Wrap
-
-                background: Rectangle {
-                            color: "white"
-                            border.color: "#EED0B6"
-                            border.width: 3
-                            radius: 4
-                        }
-                }
-                }
-
-            }
-            Row{
-
 
             Button {
-                text: "<font color=\"#3A3B3C\">Cancel</font>"
-                font.pixelSize : 26
-                background: Rectangle {
-                color: "white"
-                border.color: "#EED0B6"
-                border.width: 3
-                radius: 5
-                opacity: 1.0
-        }
-                width : 100
-                height : 40
-                anchors.left: parent.left
-                anchors.margins: 25
-                onClicked: {
-                    RecipeModel.loadItemsFromFile()
-                    stackView.pop()
-                }
-            }
-            Button {
-                text: "<font color=\"#3A3B3C\">Add</font>"
-                font.pixelSize : 26
-                background: Rectangle {
-                color: "white"
-                border.color: "#EED0B6"
-                border.width: 3
-                radius: 5
-                opacity: 1.0
-        }
-                width : 80
-                height : 40
-                anchors.right: parent.right
-                anchors.margins: -300
-                onClicked: {
-                    RecipeModel.addItemToFile(nameField.text, countField.value, unitSelector.currentText,noteArea.text)
-                    RecipeModel.loadItemsFromFile()
-                    stackView.pop() // wróć do listy
-                }
-            }
+                text: "Add ingredient"
+                onClicked: ingredientsModel.append({ name: "", amount: "", unit: "g" })
             }
 
+            RowLayout {
+                Layout.topMargin: 20
+                spacing: 10
+
+                Button {
+                    text: "Cancel"
+                    onClicked: {
+                        RecipeModel.loadItemsFromFile()
+                        stackView.pop()
+                    }
+                }
+
+                Button {
+                    text: "Add"
+                    onClicked: {
+                        var names = []
+                        var amounts = []
+                        var units = []
+
+                        for (var i = 0; i < ingredientsModel.count; ++i) {
+                            var item = ingredientsModel.get(i)
+                            names.push(item.name)
+                            amounts.push(Number(item.amount))
+                            units.push(item.unit)
+                        }
+
+                        RecipeModel.addItemToFile(nameField.text, noteArea.text, names, amounts, units)
+
+                        RecipeModel.loadItemsFromFile()
+                        stackView.pop()
+                    }
+                }
+            }
         }
     }
 }

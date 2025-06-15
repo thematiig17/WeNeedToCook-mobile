@@ -9,6 +9,7 @@ struct RecipeBookData {
     QString description;
     QStringList ingredients;
     QVariantList quantity;
+    QStringList units;
 };
 
 class RecipeBookModel : public QAbstractListModel {
@@ -24,7 +25,8 @@ public:
         NameRole = 900,
         DescriptionRole,
         IngredientsRole,
-        QuantityRole
+        QuantityRole,
+        UnitsRole
     };
     RecipeBookModel(); //konstruktor
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -34,8 +36,8 @@ public:
     Q_INVOKABLE void loadItemsFromFile();
 
     void addItem(const RecipeBookData &item);
-    Q_INVOKABLE void addItem(const QString &name, QString description, QStringList ingredients, QVariantList quantity);
-    Q_INVOKABLE void addItemToFile(const QString &name, QString description, QStringList ingredients, QVariantList quantity);
+    Q_INVOKABLE void addItem(const QString &name, QString description, QStringList ingredients, QVariantList quantity, QStringList units);
+    Q_INVOKABLE void addItemToFile(const QString &name, QString description, QStringList ingredients, QVariantList quantity, QStringList units);
     void addItemToFile(const RecipeBookData &item);
     Q_INVOKABLE void removeItem(int index);
 
