@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit, QString note);
     void addItemToFile(const ShoppingListData &item);
     Q_INVOKABLE void removeItem(int index);
+    Q_INVOKABLE void addMultipleItemsToFile(QStringList ingredients, QVariantList quantity, QStringList units);
 
 };
 #endif // SHOPPINGLIST_H

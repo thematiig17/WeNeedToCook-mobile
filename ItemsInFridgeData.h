@@ -38,7 +38,8 @@ public:
     Q_INVOKABLE void addItemToFile(const QString &name, int count, QString unit, QString note);
     void addItemToFile(const ItemsInFridgeData &item);
     Q_INVOKABLE void removeItem(int index);
-
+    Q_INVOKABLE void decreaseMultipleItems(QStringList ingredients, QVariantList quantity, QStringList units);
+    Q_INVOKABLE bool searchForMultipleItems(QStringList ingredients, QVariantList quantity, QStringList units);
 };
 
 #endif // ITEMSINFRIDGEDATA_H

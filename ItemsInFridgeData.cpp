@@ -162,3 +162,30 @@ void ItemsInFridgeModel::loadItemsFromFile() {
 int ItemsInFridgeModel::count() const {
     return m_items.count();
 }
+
+void ItemsInFridgeModel::decreaseMultipleItems(QStringList ingredients, QVariantList quantity, QStringList units){
+    for(int i = 0; i < ingredients.count(); i++){
+        FileIO fileIO;
+        fileIO.saveData("FridgeData", fileIO.loadData("FridgeData"), fileIO.makeJsonFromFridge(ingredients[i], -1*quantity[i].toInt(), units[i], "Added from Recipe"));
+    }
+}
+
+bool ItemsInFridgeModel::searchForMultipleItems(QStringList ingredients, QVariantList quantity, QStringList units){
+    bool foundEntry = false;
+    for(int i = 0; i < ingredients.count(); i++){
+        FileIO fileIO;
+        if (fileIO.searchItemByName("FridgeData", ingredients[i], quantity[i].toInt())){
+            return true;
+        }
+        if (fileIO.searchItemByName("FridgeData", ingredients[i])) {
+            foundEntry = true;
+        }
+    }
+    if(!foundEntry) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+

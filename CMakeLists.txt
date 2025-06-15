@@ -38,6 +38,8 @@ qt_add_qml_module(appWeNeedToCook-mobile
         QML_FILES TeamScreen.qml
         QML_FILES EditProductScreen.qml
         QML_FILES EditShoppingListScreen.qml
+        QML_FILES EditRecipeScreen.qml
+        QML_FILES NotEnoughItems.qml
 
 )
 
