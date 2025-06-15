@@ -51,7 +51,7 @@ Item {
                 text: "Mateusz Grabowski gr 1.2 Klaudia Chołda gr 4.8 Piotr Ptak gr 1.2"
                 wrapMode: Text.WordWrap
                 width: parent.width * 0.9
-                font.pointSize: 26
+                font.pointSize: 23
                 font.bold: true
                 color: "#3A3B3C"
             }
