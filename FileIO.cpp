@@ -80,14 +80,16 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
     bool valueExists = false;
 
     // Szukamy istniejącego obiektu i aktualizujemy go
-    for (int i = 0; i < data.size(); ++i) {
-        QJsonObject existingObj = data[i].toObject();
-        if (existingObj["name"].toString() == object["name"].toString()) {
-            int newValue = existingObj["value"].toInt() + object["value"].toInt();
-            existingObj["value"] = newValue;
-            data[i] = existingObj;  // Zaktualizuj obiekt w tablicy
-            valueExists = true;
-            break;
+    if (nameOfFile != "RecipeData") {
+        for (int i = 0; i < data.size(); ++i) {
+            QJsonObject existingObj = data[i].toObject();
+            if (existingObj["name"].toString() == object["name"].toString()) {
+                int newValue = existingObj["value"].toInt() + object["value"].toInt();
+                existingObj["value"] = newValue;
+                data[i] = existingObj;  // Zaktualizuj obiekt w tablicy
+                valueExists = true;
+                break;
+            }
         }
     }
 

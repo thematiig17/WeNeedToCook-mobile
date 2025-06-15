@@ -110,7 +110,7 @@ Item {
                     }
                         width : 120
                         height :30
-                        // trzeba zmienic co sie usuwa
+                        // trzeba zmienic co sie usuwa z listy zakupow
                         onClicked: {
                             //
                         }
@@ -127,7 +127,6 @@ Item {
                     }
                         width : 120
                         height :30
-                        // trzeba zmienic co sie usuwa
                         onClicked: {
                            //dodaj do listy zakupow
                         }
@@ -212,10 +211,10 @@ Item {
                         height :30
                         // trzeba zmienic co sie usuwa
                         onClicked: {
-                            FileIO.deleteByName("FridgeData", name)
+                            FileIO.deleteByName("RecipeData", name)
                             stackView.pop()
-                            FridgeModel.loadItemsFromFile()
-                            stackView.push("FridgeScreen.qml")
+                            RecipeModel.loadItemsFromFile()
+                            stackView.push("RecipeScreen.qml")
                         }
                     }
 
@@ -234,8 +233,8 @@ Item {
                         height :30
                         // trzeba zmienic edit co sie editutuje
                         onClicked: {
-                            console.log("DANE PRZEKAZYWANE:", name, count, unit, note)
-                            stackView.push("EditProductScreen.qml", {"passedName": name, "passedValue": count, "passedUnit": unit, "passedNote": note})
+                            console.log("DANE EDYTOWANE:", name, description, units)
+                            stackView.push("EditRecipeScreen.qml", {"passedName": name, "passedDesc": description, "passedIngredients": ingredients, "passedQuantity": quantity, "passedUnits": units})
                             //stackView.push(Qt.resolvedUrl("EditProductScreen.qml"))
                         }
 
