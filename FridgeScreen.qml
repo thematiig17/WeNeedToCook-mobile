@@ -74,6 +74,7 @@ Page {
 
     ListView {
         //anchors.fill: parent
+        width: parent.width
         Layout.fillWidth: true
         Layout.fillHeight: true
         clip: true
