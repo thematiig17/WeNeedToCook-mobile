@@ -105,7 +105,12 @@ void RecipeBookModel::addItemToFile(const RecipeBookData &item)
         return;
     }
 
-
+    for (const QString &skladnik : item.ingredients) {
+        if (skladnik.length() > 50 || !regex.match(skladnik).hasMatch()) {
+            qWarning() << "Nieprawidłowy składnik:" << skladnik;
+            return;
+        }
+    }
     FileIO fileIO;
     fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(item.name, item.description, item.ingredients, item.quantity, item.units));
 }
@@ -117,7 +122,12 @@ void RecipeBookModel::addItemToFile(const QString &name, QString description, QS
         return;
     }
 
-
+    for (const QString &skladnik :ingredients) {
+        if (skladnik.length() > 50 || !regex.match(skladnik).hasMatch()) {
+            qWarning() << "Nieprawidłowy składnik:" << skladnik;
+            return;
+        }
+    }
     FileIO fileIO;
     fileIO.saveData("RecipeData", fileIO.loadData("RecipeData"), fileIO.makeJsonFromRecipe(name, description, ingredients, quantity, units));
 }
