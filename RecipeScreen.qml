@@ -80,15 +80,62 @@ Item {
 
         delegate: Item {
             width: parent.width
-            height: 150 //TUTAJ COS TRZEBA ZROBIC ZEBY SIE ZMIENIALA WYSOKOSC, BO JAK DODA SIE ZA DUZO RZECZY TO NACHODZI NA SIEBIE
+            height: 80 + ingredients.length * 24 +(showNote ? noteText.implicitHeight + 50 :0)
+            property bool showNote: false
+
+            MouseArea {
+                   id: clickArea
+                   width: parent.width
+                   height: 50
+                   onClicked: showNote = !showNote
 
             Column {
-                spacing: 6
+                spacing: 2
                 anchors.fill: parent
 
                 RowLayout{
-                    spacing: 10
+                    spacing: 140
                     Layout.fillWidth: true
+
+
+
+                    Button{
+                        text: "<font color=\"#3A3B3C\">Use ingredients</font>"
+                        background: Rectangle {
+                        color: "#EA917E"
+                        border.color: "#DA5033"
+                        border.width:3
+                        radius: 5
+                        opacity: 1.0
+                    }
+                        width : 120
+                        height :30
+                        // trzeba zmienic co sie usuwa
+                        onClicked: {
+                            //
+                        }
+
+                    }
+                    Button{
+                        text: "<font color=\"#3A3B3C\">Add missing</font>"
+                        background: Rectangle {
+                        color: "#76C2E9"
+                        border.color: "SteelBlue"
+                        border.width:3
+                        radius: 5
+                        opacity: 1.0
+                    }
+                        width : 120
+                        height :30
+                        // trzeba zmienic co sie usuwa
+                        onClicked: {
+                           //dodaj do listy zakupow
+                        }
+                    }
+
+
+
+                }
 
                     Text {
                         text: name
@@ -96,27 +143,23 @@ Item {
                         font.pixelSize : 22
                         font.bold: true
                         Layout.alignment: Qt.AlignLeft
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                         Layout.preferredWidth: 200
                         elide: Text.ElideRight
 
                     }
 
+
                     Item {
                         Layout.fillWidth: true
                     }
 
-                    Text {
-                        text: description
-                        color:"#3A3B3C"
-                        font.pixelSize : 22
-                        Layout.alignment: Qt.AlignRight
-                        horizontalAlignment: Text.AlignRight
-                        Layout.preferredWidth: 120
-                    }
-                }
+
 
                 Repeater {
                    model: ingredients.length
+
 
                    Row {
                        spacing: 6
@@ -134,6 +177,75 @@ Item {
                        }
                    }
                }
+                Item{
+                    width: parent.width
+                    visible: showNote
+                    height: showNote ? noteText.implicitHeight + 50 : 0 // padding
+                    Behavior on height { NumberAnimation { duration: 200 } }
+
+                    Text {
+                        id: noteText
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        text: description
+                        wrapMode: Text.Wrap
+                        font.pixelSize: 18
+                        color: "#3A3B3C"
+                        visible: parent.visible
+                    }
+
+                    Row{
+                    spacing:250
+                    anchors.left: parent.left
+                    anchors.bottom:parent.bottom
+
+                    Button{
+                        text: "<font color=\"#3A3B3C\">Delete</font>"
+                        background: Rectangle {
+                        color: "#EA917E"
+                        border.color: "#DA5033"
+                        border.width:3
+                        radius: 5
+                        opacity: 1.0
+                    }
+                        width : 60
+                        height :30
+                        // trzeba zmienic co sie usuwa
+                        onClicked: {
+                            FileIO.deleteByName("FridgeData", name)
+                            stackView.pop()
+                            FridgeModel.loadItemsFromFile()
+                            stackView.push("FridgeScreen.qml")
+                        }
+                    }
+
+
+                    Button{
+                        text: "<font color=\"#3A3B3C\">Edit</font>"
+                        background: Rectangle {
+                        color: "#76C2E9"
+                        border.color:"SteelBlue"
+                        border.width: 3
+                        radius: 5
+                        opacity: 1.0
+
+                    }
+                        width : 60
+                        height :30
+                        // trzeba zmienic edit co sie editutuje
+                        onClicked: {
+                            console.log("DANE PRZEKAZYWANE:", name, count, unit, note)
+                            stackView.push("EditProductScreen.qml", {"passedName": name, "passedValue": count, "passedUnit": unit, "passedNote": note})
+                            //stackView.push(Qt.resolvedUrl("EditProductScreen.qml"))
+                        }
+
+
+
+
+                    }
+                    }
+
+            }
 
                 Row {
                     spacing:4
@@ -150,7 +262,7 @@ Item {
 
                     }
                 }
-            }
+            }}
         }
     }
 

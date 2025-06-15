@@ -177,7 +177,7 @@ Page {
 
 
                         }
-                        // trzeba zrobic zeby nadpisywalo informacje lub usuwalo xddd i wpisywalo nowe
+
                         Button{
                             text: "<font color=\"#3A3B3C\">Edit</font>"
                             background: Rectangle {
