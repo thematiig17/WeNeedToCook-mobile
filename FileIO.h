@@ -25,6 +25,8 @@ public:
     Q_INVOKABLE void deleteByName(QString nameOfFile, QString name);
     Q_INVOKABLE void editExistingEntry(QString nameOfFile, QString name, QJsonObject newEntry);
 
+    bool searchItemByName(QString nameOfFile, QString name, int minimumValue);
+    bool searchItemByName(QString nameOfFile, QString name);
 private:
     QString getFilePath(QString nameOfFile) const; //zwraca sciezke
 

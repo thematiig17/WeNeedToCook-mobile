@@ -162,3 +162,10 @@ void ShoppingListModel::loadItemsFromFile() {
 int ShoppingListModel::count() const {
     return m_items.count();
 }
+
+void ShoppingListModel::addMultipleItemsToFile(QStringList ingredients, QVariantList quantity, QStringList units) {
+    for(int i = 0; i < ingredients.count(); i++){
+    FileIO fileIO;
+    fileIO.saveData("ShoppingListData", fileIO.loadData("ShoppingListData"), fileIO.makeJsonFromShoppingList(ingredients[i], quantity[i].toInt(), units[i], "Added from Recipe"));
+    }
+}

@@ -3,6 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Recipe.Models 1.0
 import DebugMode
+import ShoppingList.Models
+import App.Models
 
 Item {
     Rectangle {
@@ -94,12 +96,13 @@ Item {
                 anchors.fill: parent
 
                 RowLayout{
-                    spacing: 140
+                    spacing: 120
                     Layout.fillWidth: true
 
 
 
                     Button{
+                        id: useIngredientsButton
                         text: "<font color=\"#3A3B3C\">Use ingredients</font>"
                         background: Rectangle {
                         color: "#EA917E"
@@ -110,14 +113,20 @@ Item {
                     }
                         width : 120
                         height :30
-                        // trzeba zmienic co sie usuwa z listy zakupow
+
                         onClicked: {
-                            //
+                            if(FridgeModel.searchForMultipleItems(ingredients, quantity, units)){
+                                stackView.push("NotEnoughItems.qml")
+                            } else {
+                                FridgeModel.decreaseMultipleItems(ingredients, quantity, units)
+                                useIngredientsButton.text = "<font color=\"#3A3B3C\">Done! ⠀⠀⠀ ⠀⠀⠀</font>"
+                            }
+
                         }
 
                     }
                     Button{
-                        text: "<font color=\"#3A3B3C\">Add missing</font>"
+                        text: "<font color=\"#3A3B3C\">Add to ShopList</font>"
                         background: Rectangle {
                         color: "#76C2E9"
                         border.color: "SteelBlue"
@@ -125,10 +134,10 @@ Item {
                         radius: 5
                         opacity: 1.0
                     }
-                        width : 120
+                        width : 140
                         height :30
                         onClicked: {
-                           //dodaj do listy zakupow
+                           ShoppingListModel.addMultipleItemsToFile(ingredients, quantity, units)
                         }
                     }
 
@@ -209,7 +218,6 @@ Item {
                     }
                         width : 60
                         height :30
-                        // trzeba zmienic co sie usuwa
                         onClicked: {
                             FileIO.deleteByName("RecipeData", name)
                             stackView.pop()
@@ -231,11 +239,9 @@ Item {
                     }
                         width : 60
                         height :30
-                        // trzeba zmienic edit co sie editutuje
                         onClicked: {
                             console.log("DANE EDYTOWANE:", name, description, units)
                             stackView.push("EditRecipeScreen.qml", {"passedName": name, "passedDesc": description, "passedIngredients": ingredients, "passedQuantity": quantity, "passedUnits": units})
-                            //stackView.push(Qt.resolvedUrl("EditProductScreen.qml"))
                         }
 
 

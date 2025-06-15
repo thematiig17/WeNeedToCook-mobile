@@ -93,6 +93,27 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
         }
     }
 
+    for (int i = data.size() - 1; i >= 0; --i) {
+        QJsonObject existingObj = data[i].toObject();
+        if (existingObj["value"].toInt() < 0) {
+            saveData("ShoppingListData",
+                     loadData("ShoppingListData"),
+                     makeJsonFromShoppingList(
+                         existingObj["name"].toString(),
+                         -1 * existingObj["value"].toInt(),
+                         existingObj["unit"].toString(),
+                         existingObj["note"].toString()
+                         ));
+            data.removeAt(i); // USUNIĘCIE z tablicy
+        }
+    }
+    /*sprawdzanie czy ktorys element ma wartosc 0*/
+    for (int i = data.size() - 1; i >= 0; --i) {
+        QJsonObject obj = data[i].toObject();
+        if (obj["value"].toInt() == 0) {
+            data.removeAt(i);
+        }
+    }
     // Jeśli nie znaleziono istniejącego obiektu, dodaj nowy
     if (!valueExists && !object.isEmpty()) {
         data.append(object);
@@ -130,8 +151,14 @@ void FileIO::createExampleJson(QString nameOfFile){
         QStringList jednostkiJajecznica = {"pcs", "g", "g"};
         QJsonObject jajecznica = makeJsonFromRecipe("Jajecznica", "Smaz na patelni", skladJajecznica, iloscJajecznica, jednostkiJajecznica);
 
+        QStringList skladBanan = {"Banana"};
+        QVariantList iloscBanan = {"2"};
+        QStringList jednostkiBanan = {"pcs"};
+        QJsonObject banana = makeJsonFromRecipe("Bananowe", "Zjedz banana", skladBanan, iloscBanan, jednostkiBanan);
+
         saveData(nameOfFile, loadData(nameOfFile), jajecznica);
         saveData(nameOfFile, loadData(nameOfFile), makeJsonFromRecipe("Testowy", "Opistest", opcje, liczby, jednostki));
+        saveData(nameOfFile, loadData(nameOfFile), banana);
 
     }
     else if (nameOfFile == "ShoppingListData"){
@@ -186,4 +213,29 @@ void FileIO::editExistingEntry(QString nameOfFile, QString name, QJsonObject new
     }
     QJsonObject emptyObject = QJsonObject();
     saveData(nameOfFile, filteredFile, emptyObject);
+}
+
+bool FileIO::searchItemByName(QString nameOfFile, QString name, int minimumValue){
+    QJsonArray baseFile = loadData(nameOfFile);
+
+    for (const QJsonValue &val : baseFile) {
+        QJsonObject object = val.toObject();
+        if (object["name"].toString() == name) {
+            if (object["value"].toInt() < minimumValue){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool FileIO::searchItemByName(QString nameOfFile, QString name){
+    QJsonArray baseFile = loadData(nameOfFile);
+
+    for (const QJsonValue &val : baseFile) {
+        QJsonObject object = val.toObject();
+        if (object["name"].toString() == name) {
+            return true;
+        }
+    }
+    return false;
 }
