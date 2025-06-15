@@ -43,7 +43,7 @@ QJsonObject FileIO::makeJsonFromFridge(QString name, int value, QString unit, QS
 
 }
 
-QJsonObject FileIO::makeJsonFromRecipe(QString name, QString description, QStringList ingredients, QVariantList quantity) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
+QJsonObject FileIO::makeJsonFromRecipe(QString name, QString description, QStringList ingredients, QVariantList quantity, QStringList units) { //UWAGA TO JEST TEST, JEŻELI DZIAŁA TO OKI :D
 
 
     QJsonObject ingredientsObject;
@@ -52,6 +52,7 @@ QJsonObject FileIO::makeJsonFromRecipe(QString name, QString description, QStrin
         QJsonObject item;
         item["name"] = ingredients[i];
         item["quantity"] = quantity[i].toDouble();
+        item["unit"] = units[i];
         ingredientsObject[ingredients[i]] = item;
     }
 
@@ -126,13 +127,31 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
 
 
 void FileIO::createExampleJson(QString nameOfFile){
-    QJsonObject banana = makeJsonFromFridge("Banana", 5, "pcs","cos");
-    QJsonObject apple = makeJsonFromFridge("Apple", 10, "pcs","cos");
-    QJsonObject orange = makeJsonFromFridge("Orange", 7, "g","cos");
+    if (nameOfFile == "FridgeData"){
+        QJsonObject banana = makeJsonFromFridge("Banana", 5, "pcs","cos");
+        QJsonObject apple = makeJsonFromFridge("Apple", 10, "pcs","cos");
+        QJsonObject orange = makeJsonFromFridge("Orange", 7, "g","cos");
 
-    saveData(nameOfFile, loadData(nameOfFile), banana);
-    saveData(nameOfFile, loadData(nameOfFile), apple);
-    saveData(nameOfFile, loadData(nameOfFile), orange);
+        saveData(nameOfFile, loadData(nameOfFile), banana);
+        saveData(nameOfFile, loadData(nameOfFile), apple);
+        saveData(nameOfFile, loadData(nameOfFile), orange);
+    }
+    else if (nameOfFile == "RecipeData"){
+        QJsonArray tempdata;
+        QStringList opcje = {"skladnik1", "skladnik2", "skladnik3"};
+        QVariantList liczby = {"1", "2", "3"};
+        QStringList jednostki = {"pcs", "pcs", "ml"};
+
+        QStringList skladJajecznica = {"jajko", "sol", "pieprz"};
+        QVariantList iloscJajecznica = {"3", "5", "5"};
+        QStringList jednostkiJajecznica = {"pcs", "g", "g"};
+        QJsonObject jajecznica = makeJsonFromRecipe("Jajecznica", "Smaz na patelni", skladJajecznica, iloscJajecznica, jednostkiJajecznica);
+
+        saveData(nameOfFile, loadData(nameOfFile), jajecznica);
+        saveData(nameOfFile, loadData(nameOfFile), makeJsonFromRecipe("Testowy", "Opistest", opcje, liczby, jednostki));
+
+    }
+
 
     qDebug() << "FileIO.cpp | createExampleJson() | Wykonano funkcje createExampleJson()";
 }

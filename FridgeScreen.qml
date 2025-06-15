@@ -41,7 +41,7 @@ Page {
         Layout.bottomMargin: -5
     }
 
-    //TEST DO USUNIECIA POTEM
+    //DEBUG BUTTONS
     RowLayout {
         spacing: 20
         id: debugButtons

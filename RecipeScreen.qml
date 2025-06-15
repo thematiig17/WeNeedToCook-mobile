@@ -2,12 +2,22 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Recipe.Models 1.0
+import DebugMode
 
 Item {
     Rectangle {
         anchors.fill: parent
         color: "#FAF0DC" // lub inny kolor tła, np. "#ffffff"
         z: 0 // tło musi być pod innymi elementami
+    }
+    Component.onCompleted: {
+        if (DebugMode.debugModeStatus() === true){
+            debugButtons.visible = true
+            console.log("debug mode: true")
+        } else {
+            debugButtons.visible = false
+            console.log("debug mode: false")
+        }
     }
 
     ColumnLayout {
@@ -32,6 +42,28 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         Layout.bottomMargin: -5
     }
+    RowLayout {
+        spacing: 20
+        id: debugButtons
+        Button {
+            text: "Dodaj testowe dane"
+            onClicked: {
+                FileIO.createExampleJson("RecipeData")
+                stackView.pop()
+                RecipeModel.loadItemsFromFile()
+                stackView.push("RecipeScreen.qml")
+            }
+        }
+        Button {
+            text: "Usun wszystkie dane"
+            onClicked: {
+                FileIO.deleteJson("RecipeData")
+                stackView.pop()
+                RecipeModel.loadItemsFromFile()
+                stackView.push("RecipeScreen.qml")
+            }
+        }
+    }
     Rectangle {
         width: parent.width
         height: 4
@@ -48,7 +80,7 @@ Item {
 
         delegate: Item {
             width: parent.width
-            height: 50
+            height: 150 //TUTAJ COS TRZEBA ZROBIC ZEBY SIE ZMIENIALA WYSOKOSC, BO JAK DODA SIE ZA DUZO RZECZY TO NACHODZI NA SIEBIE
 
             Column {
                 spacing: 6
@@ -94,6 +126,10 @@ Item {
                        }
                        Text {
                            text: quantity[index]
+                           color:"#3A3B3C"
+                       }
+                       Text {
+                           text: units[index]
                            color:"#3A3B3C"
                        }
                    }

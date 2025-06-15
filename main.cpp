@@ -37,11 +37,5 @@ int main(int argc, char *argv[])
     engine.loadFromModule("WeNeedToCook-mobile", "Main");
 
 
-    //TESTOWE
-    QJsonArray tempdata;
-    QStringList opcje = {"skladnik1", "skladnik2", "skladnik3"};
-    QVariantList liczby = {"1", "2", "3"};
-    fileIO.saveData("RecipeData", tempdata, fileIO.makeJsonFromRecipe("Testowy", "Opistest", opcje, liczby));
-
     return app.exec();
 }
