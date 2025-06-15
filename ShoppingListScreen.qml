@@ -132,7 +132,13 @@ Item {
                                         }
                                             width : 60
                                             height :30
-                                            // trzeba zmienic na dowolny item zeby nie usuwalo wszystkiego :(
+                                            onClicked: {
+                                                FileIO.deleteByName("ShoppingListData", name)
+                                                stackView.pop()
+                                                ShoppingListModel.loadItemsFromFile()
+                                                stackView.push("ShoppingListScreen.qml")
+                                            }
+
 
 
 
@@ -151,6 +157,10 @@ Item {
                                         }
                                             width : 60
                                             height :30
+                                            onClicked: {
+                                                console.log("DANE PRZEKAZYWANE:", name, count, unit, note)
+                                                stackView.push("EditShoppingListScreen.qml", {"passedName": name, "passedValue": count, "passedUnit": unit, "passedNote": note})
+                                            }
 
 
 
