@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import ShoppingList.Models 1.0
+import App.Models 1.0
+import DebugMode
 
 Item {
     Rectangle {
@@ -9,6 +11,15 @@ Item {
             color: "#FAF0DC" // lub inny kolor tła, np. "#ffffff"
             z: 0 // tło musi być pod innymi elementami
         }
+    Component.onCompleted: {
+        if (DebugMode.debugModeStatus() === true){
+            debugButtons.visible = true
+            console.log("debug mode: true")
+        } else {
+            debugButtons.visible = false
+            console.log("debug mode: false")
+        }
+    }
     ColumnLayout {
         spacing: 20
         anchors.top: parent.top
@@ -30,6 +41,29 @@ Item {
         width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
         Layout.bottomMargin: -5
+    }
+    //DEBUG BUTTONS
+    RowLayout {
+        spacing: 20
+        id: debugButtons
+        Button {
+            text: "Dodaj testowe dane"
+            onClicked: {
+                FileIO.createExampleJson("ShoppingListData")
+                stackView.pop()
+                ShoppingListModel.loadItemsFromFile()
+                stackView.push("ShoppingListScreen.qml")
+            }
+        }
+        Button {
+            text: "Usun wszystkie dane"
+            onClicked: {
+                FileIO.deleteJson("ShoppingListData")
+                stackView.pop()
+                ShoppingListModel.loadItemsFromFile()
+                stackView.push("ShoppingListScreen.qml")
+            }
+        }
     }
     Rectangle {
         width: parent.width
@@ -117,7 +151,7 @@ Item {
                                         }
 
                                         Row{
-                                        spacing:245
+                                        spacing:65
                                         anchors.left: parent.left
                                         anchors.bottom:parent.bottom
 
@@ -138,14 +172,29 @@ Item {
                                                 ShoppingListModel.loadItemsFromFile()
                                                 stackView.push("ShoppingListScreen.qml")
                                             }
-
-
-
-
-
-
                                         }
-                                        // trzeba zrobic zeby nadpisywalo informacje lub usuwalo xddd i wpisywalo nowe
+
+                                        Button{
+                                            text: "<font color=\"#3A3B3C\">Add to fridge</font>"
+                                            background: Rectangle {
+                                            color: "#63A158"
+                                            border.color:"#439934"
+                                            border.width: 3
+                                            radius: 5
+                                            opacity: 1.0
+                                        }
+                                            width : 120
+                                            height :30
+                                            onClicked: {
+                                                console.log("przesuwanie danych do lodowki:", name, count, unit, note)
+                                                FridgeModel.addItemToFile(name, count, unit, note)
+                                                FileIO.deleteByName("ShoppingListData", name)
+                                                stackView.pop()
+                                                ShoppingListModel.loadItemsFromFile()
+                                                stackView.push("ShoppingListScreen.qml")
+                                            }
+                                        }
+
                                         Button{
                                             text: "<font color=\"#3A3B3C\">Edit</font>"
                                             background: Rectangle {
