@@ -137,7 +137,6 @@ void FileIO::createExampleJson(QString nameOfFile){
         saveData(nameOfFile, loadData(nameOfFile), orange);
     }
     else if (nameOfFile == "RecipeData"){
-        QJsonArray tempdata;
         QStringList opcje = {"skladnik1", "skladnik2", "skladnik3"};
         QVariantList liczby = {"1", "2", "3"};
         QStringList jednostki = {"pcs", "pcs", "ml"};
@@ -150,6 +149,13 @@ void FileIO::createExampleJson(QString nameOfFile){
         saveData(nameOfFile, loadData(nameOfFile), jajecznica);
         saveData(nameOfFile, loadData(nameOfFile), makeJsonFromRecipe("Testowy", "Opistest", opcje, liczby, jednostki));
 
+    }
+    else if (nameOfFile == "ShoppingListData"){
+        QJsonObject grapes = makeJsonFromShoppingList("Grapes", 20, "pcs", "For eating");
+        QJsonObject milk = makeJsonFromShoppingList("Milk", 1000, "mL", "For drinking");
+
+        saveData(nameOfFile, loadData(nameOfFile), grapes);
+        saveData(nameOfFile, loadData(nameOfFile), milk);
     }
 
 
