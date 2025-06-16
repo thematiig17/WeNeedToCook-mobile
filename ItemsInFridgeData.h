@@ -4,7 +4,7 @@
 #include <QString>
 #include <QAbstractListModel>
 
-struct ItemsInFridgeData {
+struct ItemsInFridgeData { //model przedmiotów w lodówce
     QString name;
     int count;
     QString unit;

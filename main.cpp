@@ -33,9 +33,7 @@ int main(int argc, char *argv[])
     static UserVariables userVariables;
     qmlRegisterSingletonInstance("UserVariables", 1, 0, "UserVariables", &userVariables);
 
-
     engine.loadFromModule("WeNeedToCook-mobile", "Main");
-
 
     return app.exec();
 }

@@ -9,10 +9,10 @@ import UserVariables
 Page {
     id: mainScreenRoot
     Rectangle {
-            anchors.fill: parent
-            color: "#FAF0DC" // lub inny kolor tła, np. "#ffffff"
-            z: 0 // tło musi być pod innymi elementami
-        }
+        anchors.fill: parent
+        color: "#FAF0DC" // lub inny kolor tła, np. "#ffffff"
+        z: 0 // tło musi być pod innymi elementami
+    }
 
     ColumnLayout{
         spacing: 20
@@ -36,19 +36,11 @@ Page {
             color: "#3A3B3C"
         }
 
-        Rectangle{//tutaj warning trzeba dodac
+        Rectangle{
             color: "transparent"
             Layout.fillWidth: true
         }
 
-              //Text {
-             //Layout.alignment: Qt.AlignHCenter //wysrodkowanie
-            //font.pointSize: 18 //wielkosc tekstu
-           // font.family: "Helvetica" //czcionka
-          //  id: welcome_dialog //id
-         //   text: qsTr("Please select one of the options below.")
-        //    color: "#3A3B3C"
-       // }
         RowLayout{
             spacing: 30
             Rectangle {
@@ -68,7 +60,6 @@ Page {
                     font.bold: true
                     color: "#3A3B3C"
                 }
-
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -140,7 +131,7 @@ Page {
             }
         }
 
-    } //afterColumnLayout
+    }
     Rectangle{
         anchors.bottom: parent.bottom
         height: 50
@@ -206,39 +197,11 @@ Page {
 
 
     }
-
-    /*Button { //STARY KOD
-        text: "Idź do ustawień"
-        anchors.centerIn: parent
-        onClicked: stackView.push("SettingsScreen.qml")
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 40  // opcjonalnie: odstęp od dołu
-        anchors.left: parent.left
-        anchors.leftMargin: 20
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-    }*/
-
-    // dostęp do stackView przez parent
-    /*function getStackView() {
-        var p = parent
-        while (p && !p.push) p = p.parent
-        return p
-    }
-
-    Component.onCompleted: {
-        stackView = getStackView()
-    }
-
-    property var stackView*/
-
     onVisibleChanged: {
-            if (visible) {
-                hello_user.text = "Hello " + UserVariables.getNameOfUser() + "!"
-            }
+        if (visible) {
+            hello_user.text = "Hello " + UserVariables.getNameOfUser() + "!"
         }
+    }
 }
 
 

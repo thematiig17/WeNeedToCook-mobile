@@ -79,42 +79,43 @@ QJsonObject FileIO::makeJsonFromShoppingList(QString name, int value, QString un
 bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
     bool valueExists = false;
 
-    // Szukamy istniejącego obiektu i aktualizujemy go
+    // Jezeli obiekt juz istnieje to zamiast dopisywac nowy, aktualizujemy go.
     if (nameOfFile != "RecipeData") {
         for (int i = 0; i < data.size(); ++i) {
             QJsonObject existingObj = data[i].toObject();
             if (existingObj["name"].toString() == object["name"].toString()) {
                 int newValue = existingObj["value"].toInt() + object["value"].toInt();
                 existingObj["value"] = newValue;
-                data[i] = existingObj;  // Zaktualizuj obiekt w tablicy
+                data[i] = existingObj;
                 valueExists = true;
                 break;
             }
         }
+        //jezeli chcemy dodac cos, co mialoby ujemna wartosc to automatycznie dodajemy do listy zakupow.
+        for (int i = data.size() - 1; i >= 0; --i) {
+            QJsonObject existingObj = data[i].toObject();
+            if (existingObj["value"].toInt() < 0) {
+                saveData("ShoppingListData",
+                         loadData("ShoppingListData"),
+                         makeJsonFromShoppingList(
+                             existingObj["name"].toString(),
+                             -1 * existingObj["value"].toInt(),
+                             existingObj["unit"].toString(),
+                             existingObj["note"].toString()
+                             ));
+                data.removeAt(i); // USUNIĘCIE z tablicy
+            }
+        }
+        //usuwamy elementy ktore maja wartosc = 0
+        for (int i = data.size() - 1; i >= 0; --i) {
+            QJsonObject obj = data[i].toObject();
+            if (obj["value"].toInt() == 0) {
+                data.removeAt(i);
+            }
+        }
     }
 
-    for (int i = data.size() - 1; i >= 0; --i) {
-        QJsonObject existingObj = data[i].toObject();
-        if (existingObj["value"].toInt() < 0) {
-            saveData("ShoppingListData",
-                     loadData("ShoppingListData"),
-                     makeJsonFromShoppingList(
-                         existingObj["name"].toString(),
-                         -1 * existingObj["value"].toInt(),
-                         existingObj["unit"].toString(),
-                         existingObj["note"].toString()
-                         ));
-            data.removeAt(i); // USUNIĘCIE z tablicy
-        }
-    }
-    /*sprawdzanie czy ktorys element ma wartosc 0*/
-    for (int i = data.size() - 1; i >= 0; --i) {
-        QJsonObject obj = data[i].toObject();
-        if (obj["value"].toInt() == 0) {
-            data.removeAt(i);
-        }
-    }
-    // Jeśli nie znaleziono istniejącego obiektu, dodaj nowy
+    //jesli nie zostal przekazany nowy obiekt, to nie dodajemy go. to samo jak mamy doczynienia z powtorka.
     if (!valueExists && !object.isEmpty()) {
         data.append(object);
     }
@@ -129,7 +130,6 @@ bool FileIO::saveData(QString nameOfFile, QJsonArray data, QJsonObject object){
     file.close();
     return true;
 }
-
 
 void FileIO::createExampleJson(QString nameOfFile){
     if (nameOfFile == "FridgeData"){
@@ -156,9 +156,10 @@ void FileIO::createExampleJson(QString nameOfFile){
         QStringList jednostkiBanan = {"pcs"};
         QJsonObject banana = makeJsonFromRecipe("Bananowe", "Zjedz banana", skladBanan, iloscBanan, jednostkiBanan);
 
+        saveData(nameOfFile, loadData(nameOfFile), banana);
         saveData(nameOfFile, loadData(nameOfFile), jajecznica);
         saveData(nameOfFile, loadData(nameOfFile), makeJsonFromRecipe("Testowy", "Opistest", opcje, liczby, jednostki));
-        saveData(nameOfFile, loadData(nameOfFile), banana);
+
 
     }
     else if (nameOfFile == "ShoppingListData"){
@@ -173,7 +174,7 @@ void FileIO::createExampleJson(QString nameOfFile){
     qDebug() << "FileIO.cpp | createExampleJson() | Wykonano funkcje createExampleJson()";
 }
 
-void FileIO::deleteJson(QString nameOfFile) {
+void FileIO::deleteJson(QString nameOfFile) { //usuwa caly plik
     QFile file(getFilePath(nameOfFile));
     if (file.open(QIODevice::WriteOnly)){
         QJsonArray emptyArray;
@@ -183,7 +184,7 @@ void FileIO::deleteJson(QString nameOfFile) {
     }
 }
 
-void FileIO::deleteByName(QString nameOfFile, QString name) {
+void FileIO::deleteByName(QString nameOfFile, QString name) { //usuwamy element wedlug nazwy
     QJsonArray baseFile = loadData(nameOfFile);
     QJsonArray filteredFile;
 
@@ -198,7 +199,7 @@ void FileIO::deleteByName(QString nameOfFile, QString name) {
     saveData(nameOfFile, filteredFile, emptyObject);
 }
 
-void FileIO::editExistingEntry(QString nameOfFile, QString name, QJsonObject newEntry) {
+void FileIO::editExistingEntry(QString nameOfFile, QString name, QJsonObject newEntry) { //edytujemy element wedlug nazwy
     QJsonArray baseFile = loadData(nameOfFile);
     QJsonArray filteredFile;
 
@@ -215,7 +216,7 @@ void FileIO::editExistingEntry(QString nameOfFile, QString name, QJsonObject new
     saveData(nameOfFile, filteredFile, emptyObject);
 }
 
-bool FileIO::searchItemByName(QString nameOfFile, QString name, int minimumValue){
+bool FileIO::searchItemByName(QString nameOfFile, QString name, int minimumValue){ //szukamy elementu z minimalna wartoscia
     QJsonArray baseFile = loadData(nameOfFile);
 
     for (const QJsonValue &val : baseFile) {
@@ -228,7 +229,7 @@ bool FileIO::searchItemByName(QString nameOfFile, QString name, int minimumValue
     }
     return false;
 }
-bool FileIO::searchItemByName(QString nameOfFile, QString name){
+bool FileIO::searchItemByName(QString nameOfFile, QString name){ //szukamy elementu
     QJsonArray baseFile = loadData(nameOfFile);
 
     for (const QJsonValue &val : baseFile) {

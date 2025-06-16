@@ -5,10 +5,12 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+/*Klasa obslugujaca DebugMode*/
+
 class DebugModeHandle : public QObject
 {
     Q_OBJECT
-    bool isDebugModeEnabled = true; //NA KONIEC USTAWIC TU FALSE
+    bool isDebugModeEnabled = false;
 public:
     DebugModeHandle();
     Q_INVOKABLE void enableDebugMode();
