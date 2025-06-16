@@ -26,7 +26,7 @@ Page {
 
     Rectangle {
         anchors.fill: parent
-        color: "#FAF0DC"
+        color: "#f2f2f7"
         z:0
     }
 
@@ -42,7 +42,6 @@ Page {
         anchors.topMargin: 20
 
         ColumnLayout {
-
             spacing: 10
             width: parent.width * 0.9
             height:50
@@ -56,60 +55,57 @@ Page {
                 anchors.topMargin: 30
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                   }
-Row {
-    spacing: 10
-    Text{
-    text: "Recipe name: "
-    color: "#3A3B3C"
-
-    }
-            TextField {
-                id: nameField
-                Layout.fillWidth: true
-                text: passedName
-                height:30
-                width:150
-                background: Rectangle {
-                            color: "white"
-                            border.color: "#EED0B6"
-                            border.width: 2
-                            radius: 4
-                        }
             }
-}
-Row {
-    spacing: 10
-    Text{
-    text: "Descrpition: "
- color: "#3A3B3C"
-    }
-            TextArea {
-
-                id: noteArea
-                text: passedDesc
-                wrapMode: TextEdit.Wrap
-                Layout.fillWidth: true
-                Layout.preferredHeight: 100
-                height:150
-                width:250
-                background: Rectangle {
-                            color: "white"
-                            border.color: "#EED0B6"
-                            border.width: 2
-                            radius: 4
-                        }
+            Row {
+                spacing: 10
+                Text{
+                    text: "Recipe name: "
+                    color: "#3A3B3C"
+                }
+                TextField {
+                    id: nameField
+                    Layout.fillWidth: true
+                    text: passedName
+                    height:30
+                    width:150
+                    background: Rectangle {
+                                color: "white"
+                                border.color: "#EED0B6"
+                                border.width: 2
+                                radius: 4
+                                }
+                }
             }
-}
-Row {
-    spacing: 10
-            Text {
-                text: "Ingredients:"
-                 color: "#3A3B3C"
-                Layout.topMargin: 10
-
+            Row {
+                spacing: 10
+                Text{
+                    text: "Descrpition: "
+                    color: "#3A3B3C"
+                }
+                TextArea {
+                    id: noteArea
+                    text: passedDesc
+                    wrapMode: TextEdit.Wrap
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 100
+                    height:150
+                    width:250
+                    background: Rectangle {
+                                color: "white"
+                                border.color: "#EED0B6"
+                                border.width: 2
+                                radius: 4
+                                }
+                }
             }
-}
+            Row {
+                spacing: 10
+                Text {
+                    text: "Ingredients:"
+                     color: "#3A3B3C"
+                    Layout.topMargin: 10
+                }
+            }
             Repeater {
                 model: ingredientsModel
                 delegate: RowLayout {
@@ -125,7 +121,7 @@ Row {
                                     border.color: "#EED0B6"
                                     border.width: 2
                                     radius: 4
-                                }
+                                    }
                     }
 
                     TextField {
@@ -139,41 +135,37 @@ Row {
                                     border.color: "#EED0B6"
                                     border.width: 2
                                     radius: 4
-
-                                }
+                                    }
                     }
 
                     ComboBox {
                         id: unitCombo
                         model: ["g", "ml", "pcs"]
                         currentIndex: {
-                                var u = ingredientsModel.get(index).unit;
-                                var i = unitCombo.model.indexOf(u);
-                                return i >= 0 ? i : 0;
-                            }
+                            var u = ingredientsModel.get(index).unit;
+                            var i = unitCombo.model.indexOf(u);
+                            return i >= 0 ? i : 0;
+                        }
                         onCurrentTextChanged: ingredientsModel.setProperty(index, "unit", currentText)
                         Layout.preferredWidth: 85
                         Layout.preferredHeight: 35
                         background: Rectangle {
-                                                   color: "white"
-                                                   border.color: "#EED0B6"
-                                                   border.width: 2
-                                                   radius: 4
-
-                                               }
-
+                                    color: "white"
+                                    border.color: "#EED0B6"
+                                    border.width: 2
+                                    radius: 4
+                                    }
                     }
 
                     Button {
                         text: "<font color=\"#FFFFFF\">-</font>"
-
                         background: Rectangle {
-                        color: "#EA5C44"
-                        border.color: "#EA5C44"
-                        border.width: 3
-                        radius: 5
-                        opacity: 1.0
-                }
+                            color: "#EA5C44"
+                            border.color: "#EA5C44"
+                            border.width: 3
+                            radius: 5
+                            opacity: 1.0
+                        }
                         width : 80
                         height : 40
                         onClicked: ingredientsModel.remove(index)
@@ -184,12 +176,12 @@ Row {
             Button {
                 text: "<font color=\"#3A3B3C\">Add ingredient</font>"
                 background: Rectangle {
-                color: "white"
-                border.color: "#EED0B6"
-                border.width: 3
-                radius: 5
-                opacity: 1.0
-        }
+                    color: "white"
+                    border.color: "#EED0B6"
+                    border.width: 3
+                    radius: 5
+                    opacity: 1.0
+                }
                 width : 80
                 height : 40
                 onClicked: ingredientsModel.append({ name: "", amount: "", unit: "g" })
@@ -199,47 +191,44 @@ Row {
             }
 
             Row{
-
-                    Button {
-                        text: "<font color=\"#3A3B3C\">Cancel</font>"
-                        font.pixelSize : 26
-                        background: Rectangle {
+                Button {
+                    text: "<font color=\"#3A3B3C\">Cancel</font>"
+                    font.pixelSize : 26
+                    background: Rectangle {
                         color: "white"
                         border.color: "#EED0B6"
                         border.width: 3
                         radius: 5
                         opacity: 1.0
-                }
-                        width : 100
-                        height : 40
-                        anchors.left: parent.left
-                        anchors.topMargin: 20
+                    }
+                    width : 100
+                    height : 40
+                    anchors.left: parent.left
+                    anchors.topMargin: 20
 
-                        onClicked: {
+                    onClicked: {
                         RecipeModel.loadItemsFromFile()
                         stackView.pop()
                     }
                 }
-
-
-                    Button {
-                        text: "<font color=\"#3A3B3C\">Add</font>"
-                        font.pixelSize : 26
-                        background: Rectangle {
+                Button {
+                    text: "<font color=\"#3A3B3C\">Add</font>"
+                    font.pixelSize : 26
+                    background: Rectangle {
                         color: "white"
                         border.color: "#EED0B6"
                         border.width: 3
                         radius: 5
                         opacity: 1.0
-                }
-                        width : 80
-                        height : 40
-                        anchors.right: parent.right
-                        anchors.margins: -350
-                        anchors.topMargin: 20
+                    }
+                    width : 80
+                    height : 40
+                    anchors.right: parent.right
+                    anchors.margins: -350
+                    anchors.topMargin: 20
 
 
-                        onClicked:  {
+                    onClicked:  {
                         var names = []
                         var amounts = []
                         var units = []

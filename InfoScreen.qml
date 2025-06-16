@@ -58,22 +58,21 @@ Item {
         }
     }
 
-         Button {
-            text: "<font color=\"#3A3B3C\"> Go Back</font>"
-            font.pixelSize : 26
-            width : parent.width * 0.35
-            height :parent.height * 0.05
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
-            anchors.margins: 20
-            background: Rectangle {
-                color: "SteelBlue"
-                radius: 20
-                opacity: 1.0
-            }
-            onClicked: {
-                stackView.push("MainScreen.qml")
-            }
+    Button {
+        text: "<font color=\"#3A3B3C\"> Go Back</font>"
+        font.pixelSize : 26
+        width : parent.width * 0.35
+        height :parent.height * 0.05
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.margins: 20
+        background: Rectangle {
+            color: "SteelBlue"
+            radius: 20
+            opacity: 1.0
         }
-
+        onClicked: {
+            stackView.push("MainScreen.qml")
+        }
+    }
 }
